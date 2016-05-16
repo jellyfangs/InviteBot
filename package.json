@@ -2,7 +2,7 @@
   "name": "launchbot",
   "version": "1.0.0",
   "description": "Bot Name: Launch Bot Goal: A bot that can be used to launch anything.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
