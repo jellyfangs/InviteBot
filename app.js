@@ -1,6 +1,7 @@
 var restify = require('restify')
 var builder = require('botbuilder')
 var dialogs = require('./dialogs')
+var prompts = require('./prompts')
 // https://github.com/klughammer/node-randomstring
 
 // create bot and add dialogs
@@ -9,8 +10,99 @@ var launchBot = new builder.BotConnectorBot({
 	appSecret: '3979895f0c004678b344d0c5da3450cb' // process.env.appSecret // 3979895f0c004678b344d0c5da3450cb
 })
 
-launchBot.add('/', dialogs);
 
+var msgActions = {
+        "type": "Message",
+        "attachments": [
+            {
+               "text": "Pick one:",
+                "actions": [
+                    {
+                        "title": "Willy's Cheeseburger",
+                        "message": "CB"
+                    },
+                    {
+                        "title": "Curley Fries",
+                        "message": "F"
+                    },
+                    {
+                        "title": "Chocolate Shake",
+                        "message": "S"
+                    }
+                ]
+            }
+        ]
+    }
+
+
+launchBot.add('/', new builder.CommandDialog()
+	.matches('^(hello|yo|hi|hey)', builder.DialogAction.send(prompts.welcomeMessage))
+	.matches('^(yes)', builder.DialogAction.beginDialog('/createCode'))
+	.matches('^(code)', builder.DialogAction.beginDialog('/verifyCode'))
+	.matches('^(no|nevermind)', builder.DialogAction.beginDialog('/noCode'))
+	.matches('^(burgers)', builder.DialogAction.beginDialog('/burgers'))
+	.onDefault(function (session) {
+		session.send('hey')
+	}))
+
+
+launchBot.add('/burgers', [
+	function (session) {
+		session.send(msgActions)
+	},
+	function (session, results) {
+		sessin.endDialog()
+	}
+])
+
+launchBot.add('/createCode', [
+	function (session) {
+		session.send(prompts.getCodeMessage1);
+		session.send(prompts.getCodeMessage2);
+		session.send(prompts.getCodeMessage3);
+	},
+	function (session, results) {
+		session.endDialog()
+	}
+])
+
+launchBot.add('/verifyCode', [
+	function (session) {
+		session.send(prompts.sendCodeMessage1);
+		session.send(prompts.sendCodeMessage2);
+	},
+	function (session, results) {
+		session.endDialog()
+	}
+])
+
+launchBot.add('/noCode', [
+	function (session) {
+		session.send(prompts.noCodeMessage);
+	},
+	function (session, results) {
+		session.endDialog()
+	}
+])
+
+
+function haveCode(session, args) {
+	codeSuccess(session)
+}
+
+function noCode(session, args) {
+	session.send(prompts.noCodeMessage);
+}
+
+function codeSuccess(session) {
+	session.send(prompts.sendCodeMessage1);
+	session.send(prompts.sendCodeMessage2);
+}
+
+function codeFail(session) {
+	session.send(prompts.codeFailMessage1);
+	session.send(prompts.codeFailMessage2);
+}
 
 
 // setup on heroku
