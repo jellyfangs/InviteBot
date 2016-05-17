@@ -19,11 +19,11 @@ var welcomeActions = {
                 "actions": [
                     {
                         "title": "Yes!",
-                        "message": "CB"
+                        "message": "yes"
                     },
                     {
                         "title": "I have a secret code :)",
-                        "message": "F"
+                        "message": "code"
                     }
                 ]
             }
