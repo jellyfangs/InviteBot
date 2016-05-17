@@ -22,11 +22,11 @@ var welcomeActions = {
                 "actions": [
                     {
                         "title": "Yes!",
-                        "message": "new code"
+                        "message": "new"
                     },
                     {
                         "title": "I have a secret code :)",
-                        "message": "have code"
+                        "message": "code"
                     }
                 ]
             }
@@ -71,7 +71,7 @@ function addDialogs(bot, addressConvert) {
 	bot.add('/', new builder.CommandDialog()
 		.matches('^(hello|yo|hi|hey|help)', builder.DialogAction.send(welcomeActions))
 		.matches('^(new)', '/createCode')
-		.matches('^(have)', '/verifyCode')
+		.matches('^(code)', '/verifyCode')
 		.matches('^(no|nope|nah|nevermind)', '/noCode')
 		.matches('^(optin)', '/optin')
 		.matches('^(bye|quit)', builder.DialogAction.endDialog(prompts.endMessage))
