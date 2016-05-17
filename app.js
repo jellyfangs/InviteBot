@@ -67,14 +67,13 @@ var noCodeActions = {
     }
 
 launchBot.add('/', new builder.CommandDialog()
-	.matches('^(hello|yo|hi|hey)', builder.DialogAction.send(welcomeActions))
+	.matches('^(hello|yo|hi|hey|help)', builder.DialogAction.send(welcomeActions))
 	.matches('^(yes)', builder.DialogAction.beginDialog('/createCode'))
 	.matches('^(code)', builder.DialogAction.beginDialog('/verifyCode'))
 	.matches('^(no|nevermind)', builder.DialogAction.beginDialog('/noCode'))
 	.matches('^(optin)', builder.DialogAction.beginDialog('/optin'))
-	.onDefault(function (session) {
-		session.send('hey')
-	}))
+	.matches('^(bye|quit)', builder.DialogAction.endDialog(prompts.endMessage))
+	.onDefault(builder.DialogAction.send(prompts.defaultMessage)))
 
 launchBot.add('/createCode', [
 	function (session) {
@@ -138,14 +137,16 @@ function codeFail(session) {
 }
 
 
-// setup on heroku
+// save to redis
 // https://elements.heroku.com/addons/rediscloud
 
-// save to redis
+// invite system
 // https://github.com/bredele/node-invite/blob/master/index.js
+// https://github.com/eelogic/nodebb-plugin-invitation-code/blob/master/lib/invitation.js
 
 // dashboard
 // https://coligo.io/real-time-analytics-with-nodejs-socketio-vuejs/
+
 
 
 // setup restify server
