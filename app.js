@@ -83,7 +83,7 @@ launchBot.add('/createCode', [
 	},
 	function (session, results) {
 		session.send(prompts.endMessage);
-		session.endDialog()
+		// session.endDialog()
 	}
 ])
 
@@ -97,7 +97,7 @@ launchBot.add('/verifyCode', [
 	},
 	function (session, results) {
 		session.send(prompts.endMessage);
-		session.endDialog()
+		// session.endDialog()
 	}
 ])
 
@@ -107,7 +107,7 @@ launchBot.add('/noCode', [
 	},
 	function (session, results) {
 		session.send(prompts.endMessage);
-		session.endDialog()
+		// session.endDialog()
 	}
 ])
 
