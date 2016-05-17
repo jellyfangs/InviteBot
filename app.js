@@ -11,6 +11,8 @@ var launchBot = new builder.BotConnectorBot({
 })
 
 
+var username = "Matt"
+
 var welcomeActions = {
         "type": "Message",
         "attachments": [
@@ -30,12 +32,46 @@ var welcomeActions = {
         ]
     }
 
+var haveCodeActions = {
+		"type": "Message",
+        "attachments": [
+            {
+               "text": prompts.haveCodeMessage,
+                "actions": [
+                    {
+                        "title": "Nevermind, I don't have one",
+                        "message": "no"
+                    },
+                ]
+            }
+        ]
+    }
+
+var noCodeActions = {
+		"type": "Message",
+        "attachments": [
+            {
+               "text": prompts.noCodeMessage,
+                "actions": [
+                    {
+                        "title": "Yes!",
+                        "message": "optin"
+                    },
+                    {
+                        "title": "I have a secret code :)",
+                        "message": "code"
+                    },
+                ]
+            }
+        ]
+    }
 
 launchBot.add('/', new builder.CommandDialog()
 	.matches('^(hello|yo|hi|hey)', builder.DialogAction.send(welcomeActions))
 	.matches('^(yes)', builder.DialogAction.beginDialog('/createCode'))
 	.matches('^(code)', builder.DialogAction.beginDialog('/verifyCode'))
 	.matches('^(no|nevermind)', builder.DialogAction.beginDialog('/noCode'))
+	.matches('^(optin)', builder.DialogAction.beginDialog('/optin'))
 	.onDefault(function (session) {
 		session.send('hey')
 	}))
@@ -44,28 +80,40 @@ launchBot.add('/createCode', [
 	function (session) {
 		session.send(prompts.getCodeMessage1);
 		session.send(prompts.getCodeMessage2);
-		session.send(prompts.getCodeMessage3);
 	},
 	function (session, results) {
+		session.send(prompts.endMessage);
 		session.endDialog()
 	}
 ])
 
 launchBot.add('/verifyCode', [
 	function (session) {
+		session.send(haveCodeActions);
+	},
+	function (session, results) {
 		session.send(prompts.sendCodeMessage1);
 		session.send(prompts.sendCodeMessage2);
 	},
 	function (session, results) {
+		session.send(prompts.endMessage);
 		session.endDialog()
 	}
 ])
 
 launchBot.add('/noCode', [
 	function (session) {
-		session.send(prompts.noCodeMessage);
+		session.send(noCodeActions);
 	},
 	function (session, results) {
+		session.send(prompts.endMessage);
+		session.endDialog()
+	}
+])
+
+launchBot.add('/optin', [
+	function (session) {
+		session.send(prompts.endMessage);
 		session.endDialog()
 	}
 ])
