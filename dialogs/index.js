@@ -22,11 +22,11 @@ var welcomeActions = {
                 "actions": [
                     {
                         "title": "Yes!",
-                        "message": "yes"
+                        "message": "new code"
                     },
                     {
                         "title": "I have a secret code :)",
-                        "message": "code"
+                        "message": "have code"
                     }
                 ]
             }
@@ -70,12 +70,12 @@ var noCodeActions = {
 function addDialogs(bot, addressConvert) {
 	bot.add('/', new builder.CommandDialog()
 		.matches('^(hello|yo|hi|hey|help)', builder.DialogAction.send(welcomeActions))
-		.matches('^(yes|yeah|ya|yah)', '/createCode')
-		.matches('^(code)', '/verifyCode')
+		.matches('^(new)', '/createCode')
+		.matches('^(have)', '/verifyCode')
 		.matches('^(no|nope|nah|nevermind)', '/noCode')
 		.matches('^(optin)', '/optin')
 		.matches('^(bye|quit)', builder.DialogAction.endDialog(prompts.endMessage))
-		.onDefault(builder.DialogAction.send(prompts.defaultMessage)))
+		.onDefault(builder.DialogAction.send(randomDefault())))
 
 	// add dialogs for commands
 	createCode.addDialogs(bot)
@@ -83,4 +83,10 @@ function addDialogs(bot, addressConvert) {
 	noCode.addDialogs(bot)
 	optin.addDialogs(bot)
 	// runAsync.addDialogs(bot, addressConverter)
+}
+
+function randomDefault() {
+	var defaultMessages = [prompts.defaultMessage, prompts.defaultMessage2, prompts.defaultMessage3]
+	var randomDefault = defaultMessages[Math.floor(Math.random() * defaultMessages.length)]
+	return randomDefault
 }

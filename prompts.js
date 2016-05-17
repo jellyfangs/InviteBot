@@ -23,5 +23,7 @@ module.exports = {
 
 	endMessage: "Alright, I'll remember to ping you here when the album comes out! ttyl ${username}",
 
-	defaultMessage: "Hey, I'm busy finishing my ablum 'Accelerate', I'll ping you as soon as it's done!",
+	defaultMessage: "I'm almost finished with my ablum 'Accelerate', I'll ping you as soon as it's done!",
+	defaultMessage2: "I hear ya!",
+	defaultMessage3: "I'll hit you up real soon!",
 }

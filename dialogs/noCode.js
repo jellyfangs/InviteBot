@@ -8,12 +8,11 @@ module.exports = {
 function addDialogs(bot) {
 	bot.add('/noCode', [
 		function (session) {
-			session.send(prompts.getCodeMessage1)
-			session.send(prompts.getCodeMessage2)
-			session.send(prompts.endMessage)
+			builder.Prompts.confirm(session, prompts.noCodeMessage)
+		},
+		function (session, results) {
+			console.log(results.response)
+			session.endDialog()
 		}
 	])
 }
-
-
-
