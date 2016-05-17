@@ -5,8 +5,8 @@ var dialogs = require('./dialogs')
 
 // create bot and add dialogs
 var launchBot = new builder.BotConnectorBot({
-	appId: 'YourAppId', // process.env.appId  // 3979895f0c004678b344d0c5da3450cb
-	appSecret: 'YourAppSecret' // process.env.appSecret // 268cd3aa23e14f63a50081c4c3fc2421
+	appId: '3979895f0c004678b344d0c5da3450cb', // process.env.appId  // 3979895f0c004678b344d0c5da3450cb
+	appSecret: '268cd3aa23e14f63a50081c4c3fc2421' // process.env.appSecret // 268cd3aa23e14f63a50081c4c3fc2421
 })
 
 launchBot.add('/', dialogs);
