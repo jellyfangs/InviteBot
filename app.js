@@ -11,23 +11,19 @@ var launchBot = new builder.BotConnectorBot({
 })
 
 
-var msgActions = {
+var welcomeActions = {
         "type": "Message",
         "attachments": [
             {
-               "text": "Pick one:",
+               "text": prompts.welcomeMessage,
                 "actions": [
                     {
-                        "title": "Willy's Cheeseburger",
+                        "title": "Yes!",
                         "message": "CB"
                     },
                     {
-                        "title": "Curley Fries",
+                        "title": "I have a secret code :)",
                         "message": "F"
-                    },
-                    {
-                        "title": "Chocolate Shake",
-                        "message": "S"
                     }
                 ]
             }
@@ -36,7 +32,7 @@ var msgActions = {
 
 
 launchBot.add('/', new builder.CommandDialog()
-	.matches('^(hello|yo|hi|hey)', builder.DialogAction.send(prompts.welcomeMessage))
+	.matches('^(hello|yo|hi|hey)', builder.DialogAction.send(welcomeActions))
 	.matches('^(yes)', builder.DialogAction.beginDialog('/createCode'))
 	.matches('^(code)', builder.DialogAction.beginDialog('/verifyCode'))
 	.matches('^(no|nevermind)', builder.DialogAction.beginDialog('/noCode'))
