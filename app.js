@@ -36,20 +36,9 @@ launchBot.add('/', new builder.CommandDialog()
 	.matches('^(yes)', builder.DialogAction.beginDialog('/createCode'))
 	.matches('^(code)', builder.DialogAction.beginDialog('/verifyCode'))
 	.matches('^(no|nevermind)', builder.DialogAction.beginDialog('/noCode'))
-	.matches('^(burgers)', builder.DialogAction.beginDialog('/burgers'))
 	.onDefault(function (session) {
 		session.send('hey')
 	}))
-
-
-launchBot.add('/burgers', [
-	function (session) {
-		session.send(msgActions)
-	},
-	function (session, results) {
-		sessin.endDialog()
-	}
-])
 
 launchBot.add('/createCode', [
 	function (session) {
