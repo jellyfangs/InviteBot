@@ -26,4 +26,10 @@ module.exports = {
 	defaultMessage: "I'm almost finished with my ablum 'Accelerate', I'll ping you as soon as it's done!",
 	defaultMessage2: "I hear ya!",
 	defaultMessage3: "I'll hit you up real soon!",
+
+	helpMessage: 'Available commands are:\n' +
+    '* new - generates a new invite code for you\n' +
+    '* code - verifies your invite code\n' +
+    '* optin - updates whether you want updates\n' +
+    '* bye - ends the conversation\n',
 }

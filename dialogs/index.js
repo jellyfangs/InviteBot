@@ -69,7 +69,8 @@ var noCodeActions = {
 
 function addDialogs(bot, addressConvert) {
 	bot.add('/', new builder.CommandDialog()
-		.matches('^(hello|yo|hi|hey|help)', builder.DialogAction.send(welcomeActions))
+		.matches('^(hello|yo|hi|hey)', builder.DialogAction.send(welcomeActions))
+		.matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
 		.matches('^(new)', '/createCode')
 		.matches('^(code)', '/verifyCode')
 		.matches('^(no|nope|nah|nevermind)', '/noCode')
