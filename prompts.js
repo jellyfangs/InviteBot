@@ -29,7 +29,7 @@ module.exports = {
 
 	helpMessage: 'Available commands are:\n' +
     '* new - generates a new invite code for you\n' +
-    '* code - verifies your invite code\n' +
+    '* verify - verifies your invite code\n' +
     '* optin - updates whether you want updates\n' +
     '* bye - ends the conversation\n',
 }

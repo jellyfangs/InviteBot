@@ -33,20 +33,6 @@ var welcomeActions = {
         ]
     }
 
-var haveCodeActions = {
-		"type": "Message",
-        "attachments": [
-            {
-               "text": prompts.haveCodeMessage,
-                "actions": [
-                    {
-                        "title": "Nevermind, I don't have one",
-                        "message": "no"
-                    },
-                ]
-            }
-        ]
-    }
 
 var noCodeActions = {
 		"type": "Message",
@@ -72,7 +58,7 @@ function addDialogs(bot, addressConvert) {
 		.matches('^(hello|yo|hi|hey)', builder.DialogAction.send(welcomeActions))
 		.matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
 		.matches('^(new)', '/createCode')
-		.matches('^(code)', '/verifyCode')
+		.matches('^(verify)', '/verifyCode')
 		.matches('^(no|nope|nah|nevermind)', '/noCode')
 		.matches('^(optin)', '/optin')
 		.matches('^(bye|quit)', builder.DialogAction.endDialog(prompts.endMessage))
