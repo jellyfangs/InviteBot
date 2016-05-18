@@ -26,7 +26,7 @@ var welcomeActions = {
                     },
                     {
                         "title": "I have a secret code :)",
-                        "message": "code"
+                        "message": "verify"
                     }
                 ]
             }
