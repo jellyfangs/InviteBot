@@ -12,7 +12,11 @@ function addDialogs(bot) {
 		},
 		function (session, results) {
 			console.log(results.response)
-			session.endDialog()
+			if (results.response) {
+				session.beginDialog('/optin')
+			} else {
+				session.beginDialog('/optout')
+			}
 		}
 	])
 }
