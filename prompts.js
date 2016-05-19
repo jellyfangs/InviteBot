@@ -22,7 +22,7 @@ module.exports = {
 	// Add me to the list!
 
 	endMessage: "Alright, I'll remember to ping you here when the album comes out! ttyl ${username}",
-	endMessage: "Alright, it was nice chatting. Hit me up when you want to hear more about my album!",
+	endMessage2: "Alright, it was nice chatting. Hit me up when you want to hear more about my album!",
 
 	defaultMessage: "I'm almost finished with my ablum 'Accelerate', I'll ping you as soon as it's done!",
 	defaultMessage2: "I hear ya!",
