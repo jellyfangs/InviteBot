@@ -3,6 +3,7 @@ var prompts = require('../prompts')
 
 var createCode = require('./createCode')
 var verifyCode = require('./verifyCode')
+var shareCode = require('./shareCode')
 var noCode = require('./noCode')
 var optin = require('./optin')
 
@@ -60,6 +61,7 @@ function addDialogs(bot, addressConvert) {
 		.matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
 		.matches('^(new)', '/createCode')
 		.matches('^(verify)', '/verifyCode')
+		.matches('^(share)', '/shareCode')
 		.matches('^(no|nope|nah|nevermind)', '/noCode')
 		.matches('^(optin)', '/optin')
 		.matches('^(bye|quit)', builder.DialogAction.endDialog(prompts.endMessage))
@@ -68,6 +70,7 @@ function addDialogs(bot, addressConvert) {
 	// add dialogs for commands
 	createCode.addDialogs(bot)
 	verifyCode.addDialogs(bot)
+	shareCode.addDialogs(bot)
 	noCode.addDialogs(bot)
 	optin.addDialogs(bot)
 	// runAsync.addDialogs(bot, addressConverter)

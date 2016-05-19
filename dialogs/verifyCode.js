@@ -19,15 +19,54 @@ var haveCodeActions = {
             }
         ]
     }
-    
+
+ var badCodeActions = {
+		"type": "Message",
+        "attachments": [
+            {
+               "text": prompts.codeFailMessage2,
+                "actions": [
+                    {
+                        "title": "Try another code!",
+                        "message": "verify"
+                    },
+                    {
+                        "title": "Add me to the list!",
+                        "message": "optin"
+                    },
+                ]
+            }
+        ]
+    }
+
 function addDialogs(bot) {
 	bot.add('/verifyCode', [
 		function (session) {
 			builder.Prompts.text(session, prompts.haveCodeMessage)
 		},
 		function (session, results) {
-			session.send(results.response)
-			session.endDialog()
-		}
+			if (results.response && verifyCodes(results.response)) {
+				console.log(results.response)
+
+				session.send(prompts.sendCodeMessage1)
+				session.send(prompts.sendCodeMessage2)
+				session.beginDialog('/shareCode')
+			} else {
+				session.send(prompts.codeFailMessage1)
+				builder.Prompts.text(session, prompts.codeFailMessage2)
+			}
+		},
 	])
+}
+
+var codes = ['TEST1', 'TEST2', 'TEST3']
+
+function verifyCodes(results) {
+	var i = codes.length
+	while (i--) {
+		if (codes[i] === results) {
+			return true
+		}
+	}
+	return false
 }
