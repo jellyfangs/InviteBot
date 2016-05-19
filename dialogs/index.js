@@ -13,12 +13,13 @@ module.exports = {
 // triggers loading all the bot dialogs
 
 var username = "Matt"
+var welcomeMessage = `Yo ${username}! My new album 'Accelerate' is coming out soon, do you want me to send it to you before I send it to everyone else?`
 
 var welcomeActions = {
         "type": "Message",
         "attachments": [
             {
-               "text": prompts.welcomeMessage,
+               "text": welcomeMessage,
                 "actions": [
                     {
                         "title": "Yes!",
