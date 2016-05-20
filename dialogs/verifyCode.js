@@ -45,7 +45,7 @@ function addDialogs(bot) {
 			builder.Prompts.text(session, prompts.haveCodeMessage)
 		},
 		function (session, results) {
-			if (results.response && verifyCodes(results.response)) {
+			if (verifyCodes(results.response)) {
 				session.send(prompts.sendCodeMessage1)
 				session.send(prompts.sendCodeMessage2)
 				session.beginDialog('/shareCode')

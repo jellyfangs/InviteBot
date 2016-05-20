@@ -61,6 +61,12 @@ function addDialogs(bot, addressConvert) {
 	bot.add('/', new builder.CommandDialog()
 		.matches('^(hello|yo|hi|hey)', builder.DialogAction.send(welcomeActions))
 		.matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
+		.matches('^(new)', '/createCode')
+		.matches('^(verify)', '/verifyCode')
+		.matches('^(share)', '/shareCode')
+		.matches('^(no|nope|nah|nevermind)', '/noCode')
+		.matches('^(optin)', '/optin')
+		.matches('^(optout)', '/optout')
 		.matches('^(bye|quit)', builder.DialogAction.endDialog(prompts.endMessage))
 		.onDefault(builder.DialogAction.send(randomDefault())))
 

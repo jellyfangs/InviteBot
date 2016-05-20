@@ -7,9 +7,9 @@ module.exports = {
 
 function addDialogs(bot) {
 	bot.add('/optin', [
-		function (session, args, next) {
-			var utterance = session.message.from.name
-			session.send(utterance)
+		function (session) {
+			session.send('YOU ARE IN')
+			session.send(prompts.endMessage2)
 			session.endDialog()
 		}
 	])

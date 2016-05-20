@@ -8,6 +8,7 @@ module.exports = {
 function addDialogs(bot) {
 	bot.add('/optout', [
 		function (session) {
+			session.send('YOU ARE OUT')
 			session.send(prompts.endMessage2)
 			session.endDialog()
 		},
