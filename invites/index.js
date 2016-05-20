@@ -1,0 +1,1 @@
+// https://github.com/bredele/node-invite/blob/master/index.js

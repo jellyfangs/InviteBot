@@ -51,16 +51,9 @@ function addDialogs(bot) {
 				session.beginDialog('/shareCode')
 			} else {
 				session.send(prompts.codeFailMessage1)
-				builder.Prompts.text(session, prompts.codeFailMessage2)
+				session.beginDialog('/optin')
 			}
 		},
-		function (session, results) {
-			if (results.response) {
-				session.beginDialog('/optin')
-			} else {
-				session.beginDialog('/optout')
-			}
-		}
 	])
 }
 

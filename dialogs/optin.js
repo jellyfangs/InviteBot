@@ -8,9 +8,16 @@ module.exports = {
 function addDialogs(bot) {
 	bot.add('/optin', [
 		function (session) {
-			session.send('YOU ARE IN')
-			session.send(prompts.endMessage2)
-			session.endDialog()
-		}
+			builder.Prompts.text(session, prompts.codeFailMessage2)
+		},
+		function (session, results) {
+			if (verifyCodes(results.response)) {
+				session.send('YOU ARE IN')
+				session.send(prompts.endMessage2)
+			} else {
+				session.send('YOU ARE OUT')
+				session.send(prompts.endMessage2)
+			}
+		},
 	])
 }
