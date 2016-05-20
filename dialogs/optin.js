@@ -13,11 +13,11 @@ function addDialogs(bot) {
 		function (session, results) {
 			if (results.response) {
 				session.send('YOU ARE IN')
-				session.send(prompts.endMessage2)
 			} else {
 				session.send('YOU ARE OUT')
-				session.send(prompts.endMessage2)
 			}
+			session.send(prompts.endMessage2)
+			session.endDialog()
 		},
 	])
 }
