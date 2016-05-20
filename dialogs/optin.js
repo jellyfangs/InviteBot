@@ -11,7 +11,7 @@ function addDialogs(bot) {
 			builder.Prompts.text(session, prompts.codeFailMessage2)
 		},
 		function (session, results) {
-			if (verifyCodes(results.response)) {
+			if (results.response) {
 				session.send('YOU ARE IN')
 				session.send(prompts.endMessage2)
 			} else {

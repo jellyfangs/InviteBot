@@ -11,7 +11,6 @@ function addDialogs(bot) {
 			builder.Prompts.confirm(session, prompts.noCodeMessage)
 		},
 		function (session, results) {
-			console.log(results.response)
 			if (results.response) {
 				session.beginDialog('/optin')
 			} else {
