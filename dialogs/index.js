@@ -58,11 +58,10 @@ var noCodeActions = {
 
 function addDialogs(bot, addressConvert) {
 	bot.add('/', new builder.CommandDialog()
-		// .matches('^(hello|yo|hi|hey)', builder.DialogAction.send(welcomeActions))
-        .matches('^(hello|yo|hi|hey)', builder.DialogAction.send('hello'))
+		.matches('^(hello|yo|hi|hey)', builder.DialogAction.send(welcomeActions))
 		.matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
 		.matches('^(new)', '/createCode')
-		// .matches('^(verify)', '/verifyCode')
+		.matches('^(verify)', '/verifyCode')
 		.matches('^(share)', '/shareCode')
 		.matches('^(optout)', '/optout')
 		.matches('^(optin)', '/optin')
@@ -71,7 +70,7 @@ function addDialogs(bot, addressConvert) {
 
 	// add dialogs for commands
 	createCode.addDialogs(bot)
-	// verifyCode.addDialogs(bot)
+	verifyCode.addDialogs(bot)
 	shareCode.addDialogs(bot)
 	optout.addDialogs(bot)
 	optin.addDialogs(bot)
