@@ -2,7 +2,7 @@ var builder = require('botbuilder')
 var prompts = require('../prompts')
 
 var createCode = require('./createCode')
-// var verifyCode = require('./verifyCode')
+var verifyCode = require('./verifyCode')
 var shareCode = require('./shareCode')
 var optout = require('./optout')
 var optin = require('./optin')
