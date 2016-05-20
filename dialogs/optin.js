@@ -8,9 +8,10 @@ module.exports = {
 function addDialogs(bot) {
 	bot.add('/optin', [
 		function (session) {
-			builder.Prompts.text(session, prompts.codeFailMessage2)
+			builder.Prompts.confirm(session, prompts.codeFailMessage2)
 		},
 		function (session, results) {
+			console.log(results.response)
 			if (results.response) {
 				session.send('YOU ARE IN')
 			} else {
