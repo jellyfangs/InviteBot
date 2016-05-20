@@ -2,7 +2,7 @@ var builder = require('botbuilder')
 var prompts = require('../prompts')
 
 var createCode = require('./createCode')
-var verifyCode = require('./verifyCode')
+// var verifyCode = require('./verifyCode')
 var shareCode = require('./shareCode')
 var optout = require('./optout')
 var optin = require('./optin')
@@ -62,7 +62,7 @@ function addDialogs(bot, addressConvert) {
         .matches('^(hello|yo|hi|hey)', builder.DialogAction.send('hello'))
 		.matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
 		.matches('^(new)', '/createCode')
-		.matches('^(verify)', '/verifyCode')
+		// .matches('^(verify)', '/verifyCode')
 		.matches('^(share)', '/shareCode')
 		.matches('^(optout)', '/optout')
 		.matches('^(optin)', '/optin')
@@ -71,7 +71,7 @@ function addDialogs(bot, addressConvert) {
 
 	// add dialogs for commands
 	createCode.addDialogs(bot)
-	verifyCode.addDialogs(bot)
+	// verifyCode.addDialogs(bot)
 	shareCode.addDialogs(bot)
 	optout.addDialogs(bot)
 	optin.addDialogs(bot)
