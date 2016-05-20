@@ -56,6 +56,7 @@ var noCodeActions = {
         ]
     }
 
+
 function addDialogs(bot, addressConvert) {
 	bot.add('/', new builder.CommandDialog()
 		.matches('^(hello|yo|hi|hey)', builder.DialogAction.send(welcomeActions))
@@ -74,8 +75,8 @@ function addDialogs(bot, addressConvert) {
 	shareCode.addDialogs(bot)
 	optout.addDialogs(bot)
 	optin.addDialogs(bot)
-	// runAsync.addDialogs(bot, addressConverter)
 }
+
 
 function randomDefault() {
 	var defaultMessages = [prompts.defaultMessage, prompts.defaultMessage2, prompts.defaultMessage3]
