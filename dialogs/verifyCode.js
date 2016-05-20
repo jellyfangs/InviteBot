@@ -46,8 +46,6 @@ function addDialogs(bot) {
 		},
 		function (session, results) {
 			if (results.response && verifyCodes(results.response)) {
-				console.log(results.response)
-
 				session.send(prompts.sendCodeMessage1)
 				session.send(prompts.sendCodeMessage2)
 				session.beginDialog('/shareCode')
@@ -56,6 +54,13 @@ function addDialogs(bot) {
 				builder.Prompts.text(session, prompts.codeFailMessage2)
 			}
 		},
+		function (session, results) {
+			if (results.response) {
+				session.beginDialog('/optin')
+			} else {
+				session.beginDialog('/optout')
+			}
+		}
 	])
 }
 

@@ -9,7 +9,8 @@ function addDialogs(bot) {
 	bot.add('/optin', [
 		function (session, args, next) {
 			var utterance = session.message.from.name
-			console.log(utterance)
+			session.send(utterance)
+			session.endDialog()
 		}
 	])
 }

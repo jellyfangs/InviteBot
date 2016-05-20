@@ -4,7 +4,7 @@ module.exports = {
 	// I have a secret code :)
 
 	getCodeMessage1: "Yeahhh! Dope. Out of my ${totalranks} fans you're going to be the ${userrank} person I send the new album to.",
-	getCodeMessage2: function() {return `To get my album even sooner and to get a better place in line, tell your friends to message me at ${pageurl} and tell them to send me your secret code: ${invitecode}`},
+	getCodeMessage2: "To get my album even sooner and to get a better place in line, tell your friends to message me at ${pageurl} and tell them to send me your secret code: ${invitecode}",
 
 	haveCodeMessage: "Cool. Paste your secret code into here and send it to me!",
 	// Nevermind I don't have one
