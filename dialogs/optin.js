@@ -11,14 +11,12 @@ function addDialogs(bot) {
 			builder.Prompts.confirm(session, prompts.codeFailMessage2)
 		},
 		function (session, results) {
-			console.log(results.response)
 			if (results.response) {
 				session.send('YOU ARE IN')
 			} else {
 				session.send('YOU ARE OUT')
 			}
-			session.send(prompts.endMessage2)
-			session.endDialog()
+			session.endDialog(prompts.endMessage2)
 		},
 	])
 }

@@ -4,9 +4,8 @@ var prompts = require('../prompts')
 var createCode = require('./createCode')
 var verifyCode = require('./verifyCode')
 var shareCode = require('./shareCode')
-var noCode = require('./noCode')
-var optin = require('./optin')
 var optout = require('./optout')
+var optin = require('./optin')
 
 module.exports = {
 	addDialogs: addDialogs
@@ -59,14 +58,14 @@ var noCodeActions = {
 
 function addDialogs(bot, addressConvert) {
 	bot.add('/', new builder.CommandDialog()
-		.matches('^(hello|yo|hi|hey)', builder.DialogAction.send(welcomeActions))
+		// .matches('^(hello|yo|hi|hey)', builder.DialogAction.send(welcomeActions))
+        .matches('^(hello|yo|hi|hey)', builder.DialogAction.send('hello'))
 		.matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
 		.matches('^(new)', '/createCode')
 		.matches('^(verify)', '/verifyCode')
 		.matches('^(share)', '/shareCode')
-		.matches('^(no|nope|nah|nevermind)', '/noCode')
-		.matches('^(optin)', '/optin')
 		.matches('^(optout)', '/optout')
+		.matches('^(optin)', '/optin')
 		.matches('^(bye|quit)', builder.DialogAction.endDialog(prompts.endMessage))
 		.onDefault(builder.DialogAction.send(randomDefault())))
 
@@ -74,9 +73,8 @@ function addDialogs(bot, addressConvert) {
 	createCode.addDialogs(bot)
 	verifyCode.addDialogs(bot)
 	shareCode.addDialogs(bot)
-	noCode.addDialogs(bot)
-	optin.addDialogs(bot)
 	optout.addDialogs(bot)
+	optin.addDialogs(bot)
 	// runAsync.addDialogs(bot, addressConverter)
 }
 
