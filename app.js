@@ -27,6 +27,8 @@ index.addDialogs(launchBot, function (message, newConvo) {
 	}
 })
 
+
+
 // setup restify server
 var server = restify.createServer()
 server.use(restify.queryParser())
@@ -113,11 +115,51 @@ function clearDB(req, res, next) {
 
 server.get('/x', clearDB)
 
-// look up ranking
-var boards = require('./boards/index')
 
-server.get('/leaderboard', function (req, res) {
-  res.send('leaderboard go here')
+
+// total rank
+var Leaderboard = require('leaderboard')
+var rankings = new Leaderboard('rankings', null, client)
+
+server.get('/rankings', function (req, res) {
+	rankings.list(function(err, reply) {
+		res.send(reply)
+	})
+})
+
+// add new rank
+server.get('/rank', function (req, res) {
+	rankings.add(req.query.user, 1, function(err, reply) {
+		 res.send('ranking ' + req.query.user)
+	})
+})
+
+// move up rank
+server.get('/rankup', function (req, res) {
+  rankings.incr(req.query.user, 1, function(err, reply) {
+		res.send('rank up user: ' + req.query.user)
+	})
+})
+
+// get score
+server.get('/getscore', function (req, res) {
+  rankings.score(req.query.user, function(err, score) {
+		res.send('user ' + req.query.user + ' score: ' + score.toString())
+	})
+})
+
+// get rank
+server.get('/getrank', function (req, res) {
+   rankings.at(req.query.rank, function(err, user) {
+		res.send(user)
+	})
+})
+
+// remove rank
+server.get('/remove', function (req, res) {
+	rankings.rm(req.query.user, function(err, removed) {
+	  res.send(removed)
+	})
 })
 
 
