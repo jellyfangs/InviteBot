@@ -10,6 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "botbuilder": "^0.10.2",
+    "leaderboard": "0.0.9",
+    "redis": "^2.5.3",
     "restify": "^4.0.4"
+  },
+  "devDependencies": {
+    "fakeredis": "^1.0.3"
   }
 }

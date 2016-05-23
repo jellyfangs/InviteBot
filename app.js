@@ -37,6 +37,20 @@ function respond(req, res, next) {
 
 server.get('/', respond)
 
+var invites = require('./invites/index')
+
+server.get('/invites', function (req, res) {
+  res.send('invites go here')
+})
+
+var boards = require('./boards/index')
+
+server.get('/leaderboard', function (req, res) {
+  res.send('leaderboard go here')
+})
+
+// server.get('/leaderboard', boards)
+
 server.post('/api/messages', launchBot.verifyBotFramework(), launchBot.listen())
 
 server.listen(process.env.PORT || 5000, function () {
