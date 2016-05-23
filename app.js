@@ -37,11 +37,28 @@ server.use(restify.queryParser())
 var client = require('redis').createClient(process.env.REDIS_URL)
 
 // hello world
-function respond(req, res, next) {
-	res.send('hello world')
-}
-
-server.get('/', respond)
+server.get('/', function(req, res) {
+	var hello = `
+		<html>
+			<body>
+				<ul>
+					<li><form action="/verify" method="get"><input type="text" name="code" /><button type="submit">verify code</button></form></li>
+					<li><a href="/invite">Get invite code</a></li>
+					<li><a href="/list">List all codes</a></li>
+					<li><a href="/users">List all users</a></li>
+					<li><a href="/rankings">Get leaderboard</a></li>
+					<li><form action="/rank" method="get"><input type="text" name="user" /><button type="submit">add new user</button></form></li>
+					<li><form action="/rankup" method="get"><input type="text" name="user" /><button type="submit">rank up user</button></form></li>
+					<li><form action="/getscore" method="get"><input type="text" name="user" /><button type="submit">get score of user</button></form></li>
+					<li><form action="/getrank" method="get"><input type="text" name="rank" /><button type="submit">get ranking</button></form></li>
+					<li><form action="/remove" method="get"><input type="text" name="user" /><button type="submit">remove user</button></form></li>
+					<li><a href="/x">Clear database</a></li>
+				</ul>
+			</body>
+		</html>
+	`
+	res.end(hello)
+})
 
 // create codes
 var randomstring = require('randomstring')
@@ -91,12 +108,11 @@ function listCodes(req, res, next) {
 
 		for (var i = 0, len = keys.length; i < len; i++) {
 			client.get(keys[i], function (err, reply) {
-				console.log(reply)
+				res.send(reply)
 			})
-			console.log(keys[i])
+			res.send(keys[i])
 		}
 	})
-	res.send('list all the codes')
 }
 
 server.get('/list', listCodes)
