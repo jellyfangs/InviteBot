@@ -10,7 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "botbuilder": "^0.10.2",
+    "crypto": "0.0.3",
     "leaderboard": "0.0.9",
+    "randomstring": "^1.1.5",
     "redis": "^2.5.3",
     "restify": "^4.0.4"
   },

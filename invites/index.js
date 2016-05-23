@@ -2,6 +2,17 @@
 // https://github.com/borbit/node-leaderboard
 
 var client = require('redis').createClient(process.env.REDIS_URL)
-var Leaderboard = require('leaderboard')
+var randomstring = require('randomstring')
 
-var board1 = new Leaderboard('__redis__', null, client)
+exports.createCode = function(req, res, next) {
+	var inviteCode = randomstring.generate({
+		length: 6,
+		readable: true,
+		capitalization: 'uppercase',
+	})
+	return inviteCode
+}
+
+exports.verifyCode = function(req, res, next) {
+
+}
