@@ -80,7 +80,7 @@ function createCode(req, res, next) {
 		console.log(res, invitecode, uid)
 	})
 	// output from server
-	res.send(uid + ': ' + invitecode)
+	res.json(invitecode)
 }
 
 server.get('/invite', createCode)
@@ -90,6 +90,7 @@ server.get('/invite', createCode)
 function verifyCode(req, res, next) {
 	// look up invite code
 	client.get(req.query.code, function (err, reply) {
+		console.log(reply)
 		if (reply) {
 			res.send(true)
 		} else {
@@ -106,12 +107,13 @@ function listCodes(req, res, next) {
 	client.keys('*', function (err, keys) {
 		if (err) return console.log(err)
 
-		for (var i = 0, len = keys.length; i < len; i++) {
-			client.get(keys[i], function (err, reply) {
-				res.send(reply)
-			})
-			res.send(keys[i])
-		}
+		// for (var i = 0, len = keys.length; i < len; i++) {
+		// 	client.get(keys[i], function (err, reply) {
+		// 		res.send(reply)
+		// 	})
+		// 	res.send(keys[i])
+		// }
+		res.send(keys)
 	})
 }
 

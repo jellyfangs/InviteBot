@@ -1,5 +1,6 @@
 var builder = require('botbuilder')
 var prompts = require('../prompts')
+var client = require('redis').createClient(process.env.REDIS_URL)
 
 module.exports = {
 	addDialogs: addDialogs
@@ -45,26 +46,16 @@ function addDialogs(bot) {
 			builder.Prompts.text(session, prompts.haveCodeMessage)
 		},
 		function (session, results) {
-			if (verifyCodes(results.response)) {
-				session.send(prompts.sendCodeMessage1)
-				session.send(prompts.sendCodeMessage2)
-				session.beginDialog('/shareCode')
-			} else {
-				session.send(prompts.codeFailMessage1)
-				session.beginDialog('/optin')
-			}
+            client.get(results.response, function (err, reply) {
+                if (reply) {
+                    session.send(prompts.sendCodeMessage1)
+                    session.send(prompts.sendCodeMessage2)
+                    session.beginDialog('/shareCode')
+                } else {
+                    session.send(prompts.codeFailMessage1)
+                    session.beginDialog('/optin')
+                }
+            })
 		},
 	])
-}
-
-var codes = ['TEST1', 'TEST2', 'TEST3']
-
-function verifyCodes(results) {
-	var i = codes.length
-	while (i--) {
-		if (codes[i] === results) {
-			return true
-		}
-	}
-	return false
 }

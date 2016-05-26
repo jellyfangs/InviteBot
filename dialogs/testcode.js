@@ -8,7 +8,7 @@ module.exports = {
 }
 
 function addDialogs(bot) {
-	bot.add('/shareCode', [
+	bot.add('/testCode', [
 		function (session) {
 			var pageurl = 'https://m.me/jasonderulo'
 			var invitecode = createCode()
@@ -16,7 +16,7 @@ function addDialogs(bot) {
 			
 			session.send(getCodeMessage2)
 
-			session.endDialog(prompts.endMessage)
+			session.endDialog('bye')
 		},
 	])
 }

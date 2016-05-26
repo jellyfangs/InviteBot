@@ -6,6 +6,7 @@ var verifyCode = require('./verifyCode')
 var shareCode = require('./shareCode')
 var optout = require('./optout')
 var optin = require('./optin')
+var testcode = require('./testcode')
 
 module.exports = {
 	addDialogs: addDialogs
@@ -66,6 +67,7 @@ function addDialogs(bot, addressConvert) {
 		.matches('^(share)', '/shareCode')
 		.matches('^(optout)', '/optout')
 		.matches('^(optin)', '/optin')
+        .matches('^(testcode)', '/testCode')
 		.matches('^(bye|quit)', builder.DialogAction.endDialog(prompts.endMessage))
 		.onDefault(builder.DialogAction.send(randomDefault())))
 
@@ -75,6 +77,7 @@ function addDialogs(bot, addressConvert) {
 	shareCode.addDialogs(bot)
 	optout.addDialogs(bot)
 	optin.addDialogs(bot)
+    testcode.addDialogs(bot)
 }
 
 
