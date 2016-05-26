@@ -146,27 +146,27 @@ server.get('/rankings', function (req, res) {
 // add new rank
 server.get('/rank', function (req, res) {
 	rankings.add(req.query.user, 1, function(err, reply) {
-		 res.send('ranking ' + req.query.user)
+		 res.send('now ranking ' + req.query.user)
 	})
 })
 
 // move up rank
 server.get('/rankup', function (req, res) {
   rankings.incr(req.query.user, 1, function(err, reply) {
-		res.send('rank up user: ' + req.query.user)
+		res.send('ranked up user: ' + req.query.user)
 	})
 })
 
 // get score
 server.get('/getscore', function (req, res) {
   rankings.score(req.query.user, function(err, score) {
-		res.send('user ' + req.query.user + ' score: ' + score.toString())
+		res.send('user: ' + req.query.user + ' score: ' + score.toString())
 	})
 })
 
 // get rank
 server.get('/getrank', function (req, res) {
-   rankings.at(req.query.rank, function(err, user) {
+   rankings.at(req.query.rank-1, function(err, user) {
 		res.send(user)
 	})
 })
