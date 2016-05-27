@@ -47,10 +47,11 @@ server.get('/', function(req, res) {
 					<li><a href="/list">List all codes</a></li>
 					<li><a href="/users">List all users</a></li>
 					<li><a href="/rankings">Get leaderboard</a></li>
+					<li><a href="/totals">Get totals</a></li>
 					<li><form action="/rank" method="get"><input type="text" name="user" /><button type="submit">add new user</button></form></li>
 					<li><form action="/rankup" method="get"><input type="text" name="user" /><button type="submit">rank up user</button></form></li>
 					<li><form action="/getscore" method="get"><input type="text" name="user" /><button type="submit">get score of user</button></form></li>
-					<li><form action="/getrank" method="get"><input type="text" name="rank" /><button type="submit">get ranking</button></form></li>
+					<li><form action="/getrank" method="get"><input type="text" name="user" /><button type="submit">get ranking</button></form></li>
 					<li><form action="/remove" method="get"><input type="text" name="user" /><button type="submit">remove user</button></form></li>
 					<li><a href="/x">Clear database</a></li>
 				</ul>
@@ -145,6 +146,12 @@ server.get('/rankings', function (req, res) {
 	})
 })
 
+server.get('/totals', function (req, res) {
+	rankings.total(function(err, reply) {
+		res.send(reply.toString())
+	})
+})
+
 // add new rank
 server.get('/rank', function (req, res) {
 	rankings.add(req.query.user, 1, function(err, reply) {
@@ -168,8 +175,8 @@ server.get('/getscore', function (req, res) {
 
 // get rank
 server.get('/getrank', function (req, res) {
-   rankings.at(req.query.rank-1, function(err, user) {
-		res.send(user)
+   rankings.rank(req.query.user, function(err, rank) {
+		res.send((rank + 1).toString())
 	})
 })
 
