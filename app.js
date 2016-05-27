@@ -51,7 +51,7 @@ server.get('/', function(req, res) {
 					<li><form action="/rank" method="get"><input type="text" name="user" /><button type="submit">add new user</button></form></li>
 					<li><form action="/rankup" method="get"><input type="text" name="user" /><button type="submit">rank up user</button></form></li>
 					<li><form action="/getscore" method="get"><input type="text" name="user" /><button type="submit">get score of user</button></form></li>
-					<li><form action="/getrank" method="get"><input type="text" name="user" /><button type="submit">get ranking</button></form></li>
+					<li><form action="/getrank" method="get"><input type="text" name="user" /><button type="submit">get ranking of user</button></form></li>
 					<li><form action="/remove" method="get"><input type="text" name="user" /><button type="submit">remove user</button></form></li>
 					<li><a href="/x">Clear database</a></li>
 				</ul>
@@ -152,24 +152,50 @@ server.get('/totals', function (req, res) {
 	})
 })
 
-// add new rank
+// add a new member
 server.get('/rank', function (req, res) {
+	// add them to db
 	rankings.add(req.query.user, 1, function(err, reply) {
-		 res.send('now ranking ' + req.query.user)
+		if (err) {
+			console.log(err)
+		}
+		// their current rank
+		rankings.rank(req.query.user, function(err, rank) {
+			if (err) {
+				console.log(err)
+			}
+			// what's the totals
+			rankings.total(function(err, totals) {
+				res.send('user: ' + req.query.user + ', ' + 'rank: ' + (rank + 1) + ', ' + 'totals: ' + totals)
+			})
+		})
 	})
 })
 
-// move up rank
+// move a member up
 server.get('/rankup', function (req, res) {
   rankings.incr(req.query.user, 1, function(err, reply) {
-		res.send('ranked up user: ' + req.query.user)
+  	if (err) {
+  		console.log(err)
+  	}
+  	// their currnet rank
+  	rankings.rank(req.query.user, function(err, rank) {
+  		if (err) {
+  			console.log(err)
+  		}
+  		// what's the totals
+  		rankings.total(function(err, totals) {
+  			res.send('user: ' + req.query.user + ', ' + 'rank: ' + (rank + 1) + ', ' + 'totals: ' + totals)
+  		})
+  	})
 	})
 })
+
 
 // get score
 server.get('/getscore', function (req, res) {
   rankings.score(req.query.user, function(err, score) {
-		res.send('user: ' + req.query.user + ' score: ' + score.toString())
+		res.send(score.toString())
 	})
 })
 

@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.0.0-rc.5",
     "botbuilder": "^0.10.2",
     "crypto": "0.0.3",
     "http": "0.0.0",
