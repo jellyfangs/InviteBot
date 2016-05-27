@@ -185,7 +185,12 @@ server.get('/rankup', function (req, res) {
   		}
   		// what's the totals
   		rankings.total(function(err, totals) {
-  			res.send('user: ' + req.query.user + ', ' + 'rank: ' + (rank + 1) + ', ' + 'totals: ' + totals)
+  			var data = {
+  				user: req.query.user,
+  				rank: rank + 1,
+  				totals: totals
+  			}  					
+  			res.json(data)
   		})
   	})
 	})
