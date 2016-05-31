@@ -63,9 +63,12 @@ server.get('/', function(req, res) {
 							<button type="submit">look up user</button>
 						</form>
 					</li>
-					<li><form action="/getscore" method="get"><input type="text" name="user" /><button type="submit">get score of user</button></form></li>
-					<li><form action="/getrank" method="get"><input type="text" name="user" /><button type="submit">get ranking of user</button></form></li>
-					<li><form action="/remove" method="get"><input type="text" name="user" /><button type="submit">remove user</button></form></li>
+					<li>
+						<form action="/remove" method="get">
+							<input type="text" placeholder="userid" name="userid" />
+							<button type="submit">remove user</button>
+						</form>
+					</li>
 					<li><a href="/rankings">Go to leaderboard</a></li>
 					<li><a href="/x">Clear database</a></li>
 				</ul>
@@ -99,12 +102,6 @@ var rankings = new Leaderboard('rankings', null, client)
 server.get('/rankings', function (req, res) {
 	rankings.list(function(err, reply) {
 		res.send(reply)
-	})
-})
-
-server.get('/totals', function (req, res) {
-	rankings.total(function(err, reply) {
-		res.send(reply.toString())
 	})
 })
 
@@ -256,27 +253,41 @@ server.get('/lookup', function (req, res) {
 })
 
 
-// get score
-server.get('/getscore', function (req, res) {
-  rankings.score(req.query.user, function(err, score) {
-		res.send(score.toString())
-	})
-})
-
-// get rank
-server.get('/getrank', function (req, res) {
-   rankings.rank(req.query.user, function(err, rank) {
-		res.send((rank + 1).toString())
-	})
-})
-
-// remove rank
 server.get('/remove', function (req, res) {
-	rankings.rm(req.query.user, function(err, removed) {
-	  res.send(removed)
+	console.log(req.query.userid)
+
+	// is user in the system?
+	client.sismember("users", req.query.userid, function (err, reply) {
+		if (err) console.log(err)
+
+		if (reply==1) {
+			// look up the user info
+			client.hgetall("user:%s".replace("%s", req.query.userid), function (err, userinfo) { 
+				if (err) console.log(err)
+
+				// remove from hashes
+				client.hdel("user_to_code", req.query.userid)
+				client.hdel("code_to_user", userinfo.invitecode)
+
+				// remove from sets
+				client.srem("users", req.query.userid)
+				client.srem("invitecodes", userinfo.invitecode)
+
+				// remove ranking
+				rankings.rm(req.query.userid, function (err, reply) {
+					if (err) console.log(err)
+
+					// remove key
+					client.hdel("user:%s".replace("%s", req.query.userid), function (err, reply) {
+						res.send('user removed')
+					})
+				})
+			})
+		} else {
+			res.send('user not found')
+		}
 	})
 })
-
 
 // process microsoft botconnector messages
 server.post('/api/messages', launchBot.verifyBotFramework(), launchBot.listen())
