@@ -2,6 +2,7 @@ var restify = require('restify')
 var builder = require('botbuilder')
 var index = require('./dialogs/index')
 var prompts = require('./prompts')
+var randomstring = require('randomstring')
 
 // create bot and add dialogs
 var launchBot = new builder.BotConnectorBot({
@@ -42,12 +43,6 @@ server.get('/', function(req, res) {
 		<html>
 			<body>
 				<ul>
-					<li><form action="/verify" method="get"><input type="text" name="code" /><button type="submit">verify code</button></form></li>
-					<li><a href="/invite">Get invite code</a></li>
-					<li><a href="/list">List all codes</a></li>
-					<li><a href="/users">List all users</a></li>
-					<li><a href="/rankings">Get leaderboard</a></li>
-					<li><a href="/totals">Get totals</a></li>
 					<li>
 						<form action="/rank" method="get">
 							<input type="text" placeholder="userid" name="userid" />
@@ -56,10 +51,17 @@ server.get('/', function(req, res) {
 							<button type="submit">add new user</button>
 						</form>
 					</li>
+					<li>
+						<form action="/verify" method="get">
+							<input type="text" placeholder="eg. 3KOA5B" name="invitecode" />
+							<button type="submit">verify code</button>
+						</form>
+					</li>
 					<li><form action="/rankup" method="get"><input type="text" name="user" /><button type="submit">rank up user</button></form></li>
 					<li><form action="/getscore" method="get"><input type="text" name="user" /><button type="submit">get score of user</button></form></li>
 					<li><form action="/getrank" method="get"><input type="text" name="user" /><button type="submit">get ranking of user</button></form></li>
 					<li><form action="/remove" method="get"><input type="text" name="user" /><button type="submit">remove user</button></form></li>
+					<li><a href="/rankings">Go to leaderboard</a></li>
 					<li><a href="/x">Clear database</a></li>
 				</ul>
 			</body>
@@ -68,64 +70,6 @@ server.get('/', function(req, res) {
 	res.end(hello)
 })
 
-// create codes
-var randomstring = require('randomstring')
-
-function createCode(req, res, next) {
-	// gen uid
-	var uid = randomstring.generate({
-		length: 5,
-		charset: 'numeric',
-	})
-	// gen code
-	var invitecode = randomstring.generate({
-		length: 6,
-		readable: true,
-		capitalization: 'uppercase',
-	})
-	// save to redis
-	client.set(invitecode, uid, function (err, res) {
-		console.log(res, invitecode, uid)
-	})
-	// output from server
-	res.json(invitecode)
-}
-
-server.get('/invite', createCode)
-
-
-// verify codes
-function verifyCode(req, res, next) {
-	// look up invite code
-	client.get(req.query.code, function (err, reply) {
-		console.log(reply)
-		if (reply) {
-			res.send(true)
-		} else {
-			res.send(false)
-		}
-	})
-}
-
-server.get('/verify', verifyCode)
-
-
-// list codes
-function listCodes(req, res, next) {
-	client.keys('*', function (err, keys) {
-		if (err) return console.log(err)
-
-		// for (var i = 0, len = keys.length; i < len; i++) {
-		// 	client.get(keys[i], function (err, reply) {
-		// 		res.send(reply)
-		// 	})
-		// 	res.send(keys[i])
-		// }
-		res.send(keys)
-	})
-}
-
-server.get('/list', listCodes)
 
 // clear db
 function clearDB(req, res, next) {
@@ -158,6 +102,7 @@ server.get('/totals', function (req, res) {
 		res.send(reply.toString())
 	})
 })
+
 
 server.get('/rank', function (req, res) {
 	console.log(req.query.userid, req.query.first_name, req.query.last_name)
@@ -222,55 +167,51 @@ server.get('/rank', function (req, res) {
 	})
 })
 
-// rank up a member
-function rankUser(invitecode) {
-	if (client.sismember("users", invitecode)) {
-		rankings.incr(invitecode, 1, function(err, reply) {
-	  	if (err) {
-	  		console.log(err)
-	  	}
-	  	// their currnet rank
-	  	rankings.rank(req.query.user, function(err, rank) {
-	  		if (err) {
-	  			console.log(err)
-	  		}
-	  		// what's the totals
-	  		rankings.total(function(err, totals) {
-	  			var data = {
-	  				user: req.query.user,
-	  				rank: rank + 1,
-	  				totals: totals
-	  			}  					
-	  			return data
-	  		})
-	  	})
-		})
-	} else {
-		return false
-	}
-}
 
-// move a member up
-server.get('/rankup', function (req, res) {
-  rankings.incr(req.query.user, 1, function(err, reply) {
-  	if (err) {
-  		console.log(err)
-  	}
-  	// their currnet rank
-  	rankings.rank(req.query.user, function(err, rank) {
-  		if (err) {
-  			console.log(err)
-  		}
-  		// what's the totals
-  		rankings.total(function(err, totals) {
-  			var data = {
-  				user: req.query.user,
-  				rank: rank + 1,
-  				totals: totals
-  			}  					
-  			res.json(data)
-  		})
-  	})
+
+server.get('/verify', function (req, res) {
+	console.log(req.query.invitecode)
+
+	// is invitecode in the system?
+	client.sismember("invitecodes", req.query.invitecode, function (err, reply) {
+		if (err) console.log(err)
+
+		if (reply==1) {
+			// look up the userid
+			client.hget("code_to_user", req.query.invitecode, function (err, userid) {
+				if (err) console.log(err)
+
+				// increment their score
+				rankings.incr(userid, 1, function (err, reply) {
+					if (err) console.log(err)
+
+					// their current rank
+					rankings.rank(userid, function (err, rank) {
+						if (err) console.log(err)
+
+						// the total rank
+						rankings.total(function (err, totals) {
+							if (err) console.log(err)
+
+							// look up the user info
+							client.hget("user:%s".replace("%s", userid), "first_name", function (err, first_name) {
+								var jsondata = {
+									user: userid,
+									first_name: first_name,
+									rank: rank+1,
+									totals: totals
+								}
+
+								// send back response
+								res.send(jsondata)
+							})
+						})
+					})
+				})
+			})
+		} else {
+			res.send("code not found")
+		}
 	})
 })
 
