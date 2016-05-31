@@ -48,7 +48,14 @@ server.get('/', function(req, res) {
 					<li><a href="/users">List all users</a></li>
 					<li><a href="/rankings">Get leaderboard</a></li>
 					<li><a href="/totals">Get totals</a></li>
-					<li><form action="/rank" method="get"><input type="text" name="user" /><button type="submit">add new user</button></form></li>
+					<li>
+						<form action="/rank" method="get">
+							<input type="text" placeholder="userid" name="userid" />
+							<input type="text" placeholder="first_name" name="first_name" />
+							<input type="text" placeholder="last_name" name="last_name" />
+							<button type="submit">add new user</button>
+						</form>
+					</li>
 					<li><form action="/rankup" method="get"><input type="text" name="user" /><button type="submit">rank up user</button></form></li>
 					<li><form action="/getscore" method="get"><input type="text" name="user" /><button type="submit">get score of user</button></form></li>
 					<li><form action="/getrank" method="get"><input type="text" name="user" /><button type="submit">get ranking of user</button></form></li>
@@ -152,25 +159,96 @@ server.get('/totals', function (req, res) {
 	})
 })
 
-// add a new member
 server.get('/rank', function (req, res) {
-	// add them to db
-	rankings.add(req.query.user, 1, function(err, reply) {
-		if (err) {
-			console.log(err)
-		}
-		// their current rank
-		rankings.rank(req.query.user, function(err, rank) {
-			if (err) {
-				console.log(err)
-			}
-			// what's the totals
-			rankings.total(function(err, totals) {
-				res.send('user: ' + req.query.user + ', ' + 'rank: ' + (rank + 1) + ', ' + 'totals: ' + totals)
+	console.log(req.query.userid, req.query.first_name, req.query.last_name)
+
+	// is user in the system?
+	client.sismember("users", req.query.userid, function (err, reply) {
+		if (err) console.log(err)
+
+		if (reply==0) {
+
+			// add to users set
+			client.sadd("users", req.query.userid, function (err, reply) {
+
+				// create a new invite code
+				var invitecode = randomstring.generate({
+					length: 6,
+					readable: true,
+					capitalization: 'uppercase',
+				})
+
+				// add to invitecodes set
+				client.sadd("invitecodes", invitecode, function (err, reply) {
+					
+					// set hash of user info
+					client.hset("user:%s".replace("%s", req.query.userid), "first_name", req.query.first_name)
+					client.hset("user:%s".replace("%s", req.query.userid), "last_name", req.query.last_name)
+					client.hset("user:%s".replace("%s", req.query.userid), "invitecode", invitecode)
+
+					// set hash map of user_to_code and code_to_user
+					client.hset("user_to_code", req.query.userid, invitecode)
+					client.hset("code_to_user", invitecode, req.query.userid)
+					
+					// add user to rankings
+					rankings.add(req.query.userid, 1, function (err, reply) {
+						if (err) console.log(err)
+
+						// their current rank
+						rankings.rank(req.query.userid, function (err, rank) {
+							if (err) console.log(err)
+
+							// what's the total
+							rankings.total(function (err, totals) {
+								if (err) console.log(err)
+
+								// send back response
+								var jsondata = {
+									user: req.query.userid,
+									invitecode: invitecode,
+									rank: rank+1,
+									totals: totals
+								}
+								res.send(jsondata)
+							})
+						})
+					})
+				})
 			})
-		})
+		} else {
+			// rankUser(invitecode)
+			res.send("already a member")
+		}
 	})
 })
+
+// rank up a member
+function rankUser(invitecode) {
+	if (client.sismember("users", invitecode)) {
+		rankings.incr(invitecode, 1, function(err, reply) {
+	  	if (err) {
+	  		console.log(err)
+	  	}
+	  	// their currnet rank
+	  	rankings.rank(req.query.user, function(err, rank) {
+	  		if (err) {
+	  			console.log(err)
+	  		}
+	  		// what's the totals
+	  		rankings.total(function(err, totals) {
+	  			var data = {
+	  				user: req.query.user,
+	  				rank: rank + 1,
+	  				totals: totals
+	  			}  					
+	  			return data
+	  		})
+	  	})
+		})
+	} else {
+		return false
+	}
+}
 
 // move a member up
 server.get('/rankup', function (req, res) {

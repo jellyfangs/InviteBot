@@ -24,9 +24,11 @@ module.exports = {
 	endMessage: "Alright, I'll remember to ping you here when the album comes out! ttyl ${username}",
 	endMessage2: "Alright, it was nice chatting. Hit me up when you want to hear more about my album!",
 
-	defaultMessage: "I'm almost finished with my ablum 'Accelerate', I'll ping you as soon as it's done!",
+	defaultMessage: "I'll ping you as soon as my album is done!",
 	defaultMessage2: "I hear ya!",
 	defaultMessage3: "I'll hit you up real soon!",
+	defaultMessage4: "Almost ready for ya!",
+	defaultMessage5: "This album is gonna be amazing!",
 
 	helpMessage: 'Available commands are:\n' +
     '* new - generates a new invite code for you\n' +
