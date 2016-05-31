@@ -57,7 +57,12 @@ server.get('/', function(req, res) {
 							<button type="submit">verify code</button>
 						</form>
 					</li>
-					<li><form action="/rankup" method="get"><input type="text" name="user" /><button type="submit">rank up user</button></form></li>
+					<li>
+						<form action="/lookup" method="get">
+							<input type="text" placeholder="userid" name="userid" />
+							<button type="submit">look up user</button>
+						</form>
+					</li>
 					<li><form action="/getscore" method="get"><input type="text" name="user" /><button type="submit">get score of user</button></form></li>
 					<li><form action="/getrank" method="get"><input type="text" name="user" /><button type="submit">get ranking of user</button></form></li>
 					<li><form action="/remove" method="get"><input type="text" name="user" /><button type="submit">remove user</button></form></li>
@@ -135,7 +140,7 @@ server.get('/rank', function (req, res) {
 					client.hset("user_to_code", req.query.userid, invitecode)
 					client.hset("code_to_user", invitecode, req.query.userid)
 					
-					// add user to rankings
+					// add user to rankings	
 					rankings.add(req.query.userid, 1, function (err, reply) {
 						if (err) console.log(err)
 
@@ -211,6 +216,41 @@ server.get('/verify', function (req, res) {
 			})
 		} else {
 			res.send("code not found")
+		}
+	})
+})
+
+
+server.get('/lookup', function (req, res) {
+	console.log(req.query.userid)
+
+	// is user in the system?
+	client.sismember("users", req.query.userid, function (err, reply) {
+		if (err) console.log(err)
+
+		if (reply==1) {
+			// look up the user info
+			client.hgetall("user:%s".replace("%s", req.query.userid), function (err, userinfo) { 
+				if (err) console.log(err)
+
+				// their current rank
+				rankings.rank(req.query.userid, function (err, rank) {
+					if (err) console.log(err)
+
+					// the total ranks
+					rankings.total(function (err, totals) {
+						if (err) console.log(err)
+
+						userinfo.rank = rank+1
+						userinfo.totals = totals
+
+						// send back response
+						res.send(userinfo)
+					})
+				})
+			})
+		} else {
+			res.send('user not found')
 		}
 	})
 })
