@@ -149,7 +149,7 @@ server.get('/rank', function (req, res) {
 		} else {
 			// rankUser(invitecode)
 			console.log('ALREADY A MEMBER')
-			res.send(500)
+			res.send(404, 'ALREADY A MEMBER')
 		}
 	})
 })
@@ -198,7 +198,7 @@ server.get('/verify', function (req, res) {
 			})
 		} else {
 			console.log('INVITE CODE NOT FOUND')
-			res.send(404)
+			res.send(404, 'INVITE CODE NOT FOUND')
 		}
 	})
 })
@@ -234,7 +234,7 @@ server.get('/lookup', function (req, res) {
 			})
 		} else {
 			console.log('USER NOT FOUND')
-			res.send(404)
+			res.send(404, 'USER NOT FOUND')
 		}
 	})
 })
@@ -272,7 +272,7 @@ server.get('/remove', function (req, res) {
 			})
 		} else {
 			console.log('USER NOT FOUND')
-			res.send(404)
+			res.send(404, 'USER NOT FOUND')
 		}
 	})
 })

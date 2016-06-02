@@ -39,8 +39,6 @@ var haveCodeActions = {
             }
         ]
     }
-
-// WS8XH6
             
 function addDialogs(bot) {
 	bot.add('/verifyCode', [
@@ -48,24 +46,25 @@ function addDialogs(bot) {
 			builder.Prompts.text(session, prompts.haveCodeMessage)
 		},
 		function (session, results) {
-            http.get('http://localhost:3978/verify?invitecode=' + results.response, function(res) { 
-                res.setEncoding('utf8')
-                res.on('data', function (data) {
-                    console.log(data)
-                    if (data) {
+            http.get({
+                protocol: 'http:',
+                host: 'localhost',
+                port: 3978,
+                path: '/verify?invitecode=%s'.replace('%s', results.response)
+            }, function(res) { 
+                if (res.statusCode==200) {
+                    res.on('data', function(data) {
                         var friend = JSON.parse(data)
-
                         var verifiedCodeMessage = `Dope! That is definitely one of my secret codes, you just helped ${friend.first_name} move up the waitlist for my new album!`
-
                         session.send(verifiedCodeMessage)
-
                         session.beginDialog('/shareCode')
-                    } else {
-                        session.send(prompts.codeFailMessage1)
-
-                        session.beginDialog('/optin')
-                    }
-                })
+                    })
+                } else {
+                    session.send(prompts.codeFailMessage1)
+                    session.beginDialog('/optin')
+                }
+            }).on('error', function (err) {
+                console.log(`CHATBOT ERR: ${err.message}`)
             })
 		},
 	])

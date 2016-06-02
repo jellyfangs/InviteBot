@@ -63,7 +63,7 @@ function addDialogs(bot) {
 	bot.add('/', new builder.CommandDialog()
 		// .matches('^(hello|yo|hi|hey)', builder.DialogAction.send(welcomeActions))
         .matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
-        .matches('^(hello|yo|hi|hey)', '/testCode')
+        // .matches('^(hello|yo|hi|hey)', '/testCode')
 		.matches('^(new)', '/createCode')
 		.matches('^(verify)', '/verifyCode')
 		.matches('^(share)', '/shareCode')
@@ -78,7 +78,7 @@ function addDialogs(bot) {
 	shareCode.addDialogs(bot)
 	optout.addDialogs(bot)
 	optin.addDialogs(bot)
-    testCode.addDialogs(bot)
+    // testCode.addDialogs(bot)
 }
 
 
