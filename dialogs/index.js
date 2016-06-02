@@ -65,7 +65,7 @@ function addDialogs(bot) {
         .matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
         // .matches('^(hello|yo|hi|hey)', '/testCode')
 		.matches('^(new)', '/createCode')
-		.matches('^(verify)', '/verifyCode')
+		.matches('^(verify)', '/verifyCode') //
 		.matches('^(share)', '/shareCode')
 		.matches('^(optout)', '/optout')
 		.matches('^(optin)', '/optin')

@@ -147,9 +147,25 @@ server.get('/rank', function (req, res) {
 				})
 			})
 		} else {
-			// rankUser(invitecode)
-			console.log('ALREADY A MEMBER')
-			res.send(404, 'ALREADY A MEMBER')
+			client.hgetall("user:%s".replace("%s", req.query.userid), function (err, userinfo) { 
+				if (err) console.log(err)
+
+				// their current rank
+				rankings.rank(req.query.userid, function (err, rank) {
+					if (err) console.log(err)
+
+					// the total ranks
+					rankings.total(function (err, totals) {
+						if (err) console.log(err)
+
+						userinfo.rank = rank+1
+						userinfo.totals = totals
+
+						// send back response
+						res.send(userinfo)
+					})
+				})
+			})
 		}
 	})
 })

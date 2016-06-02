@@ -9,26 +9,47 @@ module.exports = {
 function addDialogs(bot) {
 	bot.add('/shareCode', [
 		function (session) {
-			if (!session.userData.invitecode) {
-				// http://localhost:3978/rank?userid=10001&first_name=test&last_name=test
-				http.get('http://localhost:3978/rank?userid=' + session.message.from.id + '&first_name=' + session.message.from.name + '&last_name=' + session.message.from.name, function(res) {
-					res.setEncoding('utf8')
-					res.on('data', function(err, data) {
-						if (err) console.log(err)
-						console.log('api returned %s', data)
-					})
-				})
-			}
-			else {
+			// http://localhost:3978/rank?userid=10001&first_name=test&last_name=test
+			var path = '/rank?userid=%s'.replace('%s', session.message.from.id + 6 + '&first_name=' + session.message.from.name + '&last_name=' + session.message.from.name)
+ 			// if user already has an invite code then look them up
+			if (session.userData.invitecode) {
 				// http://localhost:3978/lookup?userid=10001
-				http.get('http://localhost:3978/lookup?userid=' + session.message.from.id, function(res) {
-					res.setEncoding('utf8')
-					res.on('data', function(err, data) {
-						if (err) console.log(err)
-						console.log('api returned %s', data)
-					})
-				})
+				path = '/lookup?userid=%s'.replace('%s', session.message.from.id)
 			}
+
+			http.get({
+				protocol: 'http:',
+				host: 'localhost',
+				port: 3978,
+				path: path
+			}, function(res) {
+				if (res.statusCode!=200) {
+					// server error
+					session.endDialog(prompts.endMessage)
+				}
+				// keep processing user
+				res.on('data', function(data) {
+					var user = JSON.parse(data)
+					var user_first_name = session.userData.name
+					var invitecode = user.invitecode
+					session.userData.invitecode = invitecode // setup botbuilder session
+					var user_rank = ordinal_suffix_of(user.rank)
+					var total_ranks = user.totals
+
+					// send first msg
+					var sendCodeMessage2 = `btw ${user_first_name}, out of my ${total_ranks} fans you're going to be the ${user_rank} person I send the new album to.`
+					session.send(sendCodeMessage2)
+
+					// send second msg
+					var pageurl = 'https://m.me/jasonderulo'
+					var getCodeMessage2 = `To get my album even sooner and to get a better place in line, tell your friends to message me at ${pageurl} and tell them to send me your secret code: ${invitecode}`
+					session.send(getCodeMessage2)
+
+					session.endDialog(prompts.endMessage)
+				})
+			}).on('error', function (err) {
+        console.log(`CHATBOT ERR: ${err.message}`)
+      })
 		},
 	])
 }
