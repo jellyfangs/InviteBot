@@ -6,6 +6,7 @@ var verifyCode = require('./verifyCode')
 var shareCode = require('./shareCode')
 var optout = require('./optout')
 var optin = require('./optin')
+var testCode = require('./testCode')
 
 module.exports = {
 	addDialogs: addDialogs
@@ -57,10 +58,12 @@ var noCodeActions = {
     }
 
 
-function addDialogs(bot, addressConvert) {
+function addDialogs(bot) {
+    console.log(bot)
 	bot.add('/', new builder.CommandDialog()
-		.matches('^(hello|yo|hi|hey)', builder.DialogAction.send(welcomeActions))
-		.matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
+		// .matches('^(hello|yo|hi|hey)', builder.DialogAction.send(welcomeActions))
+        .matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
+        .matches('^(hello|yo|hi|hey)', '/testCode')
 		.matches('^(new)', '/createCode')
 		.matches('^(verify)', '/verifyCode')
 		.matches('^(share)', '/shareCode')
@@ -75,6 +78,7 @@ function addDialogs(bot, addressConvert) {
 	shareCode.addDialogs(bot)
 	optout.addDialogs(bot)
 	optin.addDialogs(bot)
+    testCode.addDialogs(bot)
 }
 
 

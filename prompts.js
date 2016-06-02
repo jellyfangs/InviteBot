@@ -21,7 +21,7 @@ module.exports = {
 	// Try another code!
 	// Add me to the list!
 
-	endMessage: "Alright, I'll remember to ping you here when the album comes out! ttyl ${username}",
+	endMessage: "Alright, I'll remember to ping you here when the album comes out! ttyl",
 	endMessage2: "Alright, it was nice chatting. Hit me up when you want to hear more about my album!",
 
 	defaultMessage: "I'll ping you as soon as my album is done!",

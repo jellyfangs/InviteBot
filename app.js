@@ -6,27 +6,11 @@ var randomstring = require('randomstring')
 
 // create bot and add dialogs
 var launchBot = new builder.BotConnectorBot({
-	appId: 'launchbottest', // process.env.appId  // launchbottest
-	appSecret: '3979895f0c004678b344d0c5da3450cb' // process.env.appSecret // 3979895f0c004678b344d0c5da3450cb
+	appId: process.env.appId,  // launchbottest
+	appSecret: process.env.appSecret // 3979895f0c004678b344d0c5da3450cb
 })
 
-index.addDialogs(launchBot, function (message, newConvo) {
-	console.log('got a message')
-	if (newConvo) {
-		return {
-			to: message.from,
-			from: message.to
-		}
-	} else {
-		return {
-			to: message.to,
-			from: message.from,
-			conversationId: message.conversationId,
-			channelConversationId: message.channelConversationId,
-			channelMessageId: message.channelMessageId
-		}
-	}
-})
+index.addDialogs(launchBot)
 
 
 
@@ -107,7 +91,7 @@ server.get('/rankings', function (req, res) {
 
 
 server.get('/rank', function (req, res) {
-	console.log(req.query.userid, req.query.first_name, req.query.last_name)
+	console.log('RANKING: %s %s %s', req.query.userid, req.query.first_name, req.query.last_name)
 
 	// is user in the system?
 	client.sismember("users", req.query.userid, function (err, reply) {
@@ -164,7 +148,8 @@ server.get('/rank', function (req, res) {
 			})
 		} else {
 			// rankUser(invitecode)
-			res.send("already a member")
+			console.log('ALREADY A MEMBER')
+			res.send(500)
 		}
 	})
 })
@@ -172,7 +157,7 @@ server.get('/rank', function (req, res) {
 
 
 server.get('/verify', function (req, res) {
-	console.log(req.query.invitecode)
+	console.log('VERIFYING: %s', req.query.invitecode)
 
 	// is invitecode in the system?
 	client.sismember("invitecodes", req.query.invitecode, function (err, reply) {
@@ -212,14 +197,15 @@ server.get('/verify', function (req, res) {
 				})
 			})
 		} else {
-			res.send("code not found")
+			console.log('INVITE CODE NOT FOUND')
+			res.send(404)
 		}
 	})
 })
 
 
 server.get('/lookup', function (req, res) {
-	console.log(req.query.userid)
+	console.log('LOOKING UP: %s', req.query.userid)
 
 	// is user in the system?
 	client.sismember("users", req.query.userid, function (err, reply) {
@@ -247,14 +233,15 @@ server.get('/lookup', function (req, res) {
 				})
 			})
 		} else {
-			res.send('user not found')
+			console.log('USER NOT FOUND')
+			res.send(404)
 		}
 	})
 })
 
 
 server.get('/remove', function (req, res) {
-	console.log(req.query.userid)
+	console.log('REMOVING: %s', req.query.userid)
 
 	// is user in the system?
 	client.sismember("users", req.query.userid, function (err, reply) {
@@ -284,7 +271,8 @@ server.get('/remove', function (req, res) {
 				})
 			})
 		} else {
-			res.send('user not found')
+			console.log('USER NOT FOUND')
+			res.send(404)
 		}
 	})
 })
@@ -293,6 +281,6 @@ server.get('/remove', function (req, res) {
 server.post('/api/messages', launchBot.verifyBotFramework(), launchBot.listen())
 
 // run server
-server.listen(process.env.PORT || 5000, function () {
+server.listen(process.env.PORT || 3978, function () {
 	console.log('%s listening to %s', server.name, server.url)
 })
