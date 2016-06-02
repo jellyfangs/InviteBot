@@ -30,14 +30,13 @@ function addDialogs(bot) {
 				// keep processing user
 				res.on('data', function(data) {
 					var user = JSON.parse(data)
-					var user_first_name = session.userData.name
 					var invitecode = user.invitecode
 					session.userData.invitecode = invitecode // setup botbuilder session
 					var user_rank = ordinal_suffix_of(user.rank)
 					var total_ranks = user.totals
 
 					// send first msg
-					var sendCodeMessage2 = `btw ${user_first_name}, out of my ${total_ranks} fans you're going to be the ${user_rank} person I send the new album to.`
+					var sendCodeMessage2 = `Out of my ${total_ranks} fans you're going to be the ${user_rank} person I send the new album to.`
 					session.send(sendCodeMessage2)
 
 					// send second msg

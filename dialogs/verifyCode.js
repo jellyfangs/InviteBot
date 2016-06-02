@@ -57,6 +57,11 @@ function addDialogs(bot) {
                         var friend = JSON.parse(data)
                         var verifiedCodeMessage = `Dope! That is definitely one of my secret codes, you just helped ${friend.first_name} move up the waitlist for my new album!`
                         session.send(verifiedCodeMessage)
+
+                        var user_first_name = session.userData.name
+                        var verifiedCodeMessage2 = `btw ${user_first_name}, I still got you.`
+                        session.send(verifiedCodeMessage2)
+
                         session.beginDialog('/shareCode')
                     })
                 } else {

@@ -12,9 +12,9 @@ function addDialogs(bot) {
 		},
 		function (session, results) {
 			if (results.response) {
-				session.send('YOU ARE IN')
+				session.userData.optin = true
 			} else {
-				session.send('YOU ARE OUT')
+				session.userData.optin = false
 			}
 			session.endDialog(prompts.endMessage2)
 		}

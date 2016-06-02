@@ -30,9 +30,11 @@ module.exports = {
 	defaultMessage4: "Almost ready for ya!",
 	defaultMessage5: "This album is gonna be amazing!",
 
-	helpMessage: 'Available commands are:\n' +
-    '* new - generates a new invite code for you\n' +
-    '* verify - verifies your invite code\n' +
-    '* optin - updates whether you want updates\n' +
+	helpMessage: 'Currently you can...\n' +
+    '* hello - i will say hello and ask if you wish to opt in\n' +
+    '* verify - i will verify a special invite code for you\n' +
+    '* share - i will give you an invite code to share\n' +
+		'* optin - i will gladly notify you when i am ready\n' +
+    '* optout - i will no longer notify you when i am ready\n' +
     '* bye - ends the conversation\n',
 }

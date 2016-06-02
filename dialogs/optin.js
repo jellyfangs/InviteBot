@@ -13,10 +13,10 @@ function addDialogs(bot) {
 		function (session, results) {
 			if (results.response) {
 				if (results.response.entity == 'yes') {
-					session.send('YOU ARE IN')
+					session.userData.optin = true
 					session.endDialog(prompts.endMessage2)
 				} else if (results.response.entity == 'no') {
-					session.send('YOU ARE OUT')
+					session.userData.optin = false
 					session.endDialog(prompts.endMessage2)
 				} else {
 					session.beginDialog('/verifyCode')
