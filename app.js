@@ -6,8 +6,8 @@ var randomstring = require('randomstring')
 
 // create bot and add dialogs
 var launchBot = new builder.BotConnectorBot({
-	appId: process.env.appId,  // launchbottest
-	appSecret: process.env.appSecret // 3979895f0c004678b344d0c5da3450cb
+	appId: process.env.appId,
+	appSecret: process.env.appSecret
 })
 
 index.addDialogs(launchBot)

@@ -8,7 +8,7 @@ module.exports = {
 function addDialogs(bot) {
 	bot.add('/optin', [
 		function (session) {
-			builder.Prompts.choice(session, prompts.codeFailMessage2, ["yes", "no", "another code"])
+			builder.Prompts.choice(session, prompts.codeFailMessage2, ["Yes", "No", "Another code"])
 		},
 		function (session, results) {
 			if (results.response) {

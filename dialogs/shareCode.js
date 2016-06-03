@@ -19,8 +19,7 @@ function addDialogs(bot) {
 
 			http.get({
 				protocol: 'http:',
-				host: 'localhost',
-				port: 3978,
+				host: 'launchbotapp.herokuapp.com',
 				path: path
 			}, function(res) {
 				if (res.statusCode!=200) {

@@ -43,13 +43,12 @@ var haveCodeActions = {
 function addDialogs(bot) {
 	bot.add('/verifyCode', [
 		function (session) {
-			builder.Prompts.text(session, prompts.haveCodeMessage)
+			builder.Prompts.text(session, haveCodeActions)
 		},
 		function (session, results) {
             http.get({
                 protocol: 'http:',
-                host: 'localhost',
-                port: 3978,
+                host: 'launchbotapp.herokuapp.com',
                 path: '/verify?invitecode=%s'.replace('%s', results.response)
             }, function(res) { 
                 if (res.statusCode==200) {

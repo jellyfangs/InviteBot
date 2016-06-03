@@ -15,7 +15,7 @@ module.exports = {
 function addDialogs(bot) {
     console.log(bot)
 	bot.add('/', new builder.CommandDialog()
-        .matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
+    .matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
 		.matches('^(hello|yo|hi|hey)', '/intro')
 		.matches('^(verify)', '/verifyCode')
 		.matches('^(share)', '/shareCode')
