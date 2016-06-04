@@ -2,6 +2,7 @@ var builder = require('botbuilder')
 var prompts = require('../prompts')
 
 var intro = require('./intro')
+var welcome = require('./welcome')
 var verifyCode = require('./verifyCode')
 var shareCode = require('./shareCode')
 var optout = require('./optout')
@@ -16,17 +17,31 @@ module.exports = {
 function addDialogs(bot) {
 	bot.add('/', new builder.CommandDialog()
     .matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
-		.matches('^(hello|yo|hi|hey)', '/intro')
+		.matches('^(hello|yo|hi|hey)', '/welcome')
 		.matches('^(verify)', '/verifyCode')
 		.matches('^(share)', '/shareCode')
 		.matches('^(optout)', '/optout')
 		.matches('^(optin)', '/optin')
 		.matches('^(reset)', '/reset')
 		.matches('^(bye|quit)', builder.DialogAction.endDialog(prompts.endMessage))
-		.onDefault(builder.DialogAction.send(randomDefault())))
+		.onDefault([
+			// builder.DialogAction.send(randomDefault())
+			function (session, args, next) {
+				if (!session.userData.firstRun) {
+					session.beginDialog('/intro')
+				} else {
+					next()
+				}
+			},
+			function (session, results) {
+				session.beginDialog('welcome')
+			}
+		])
+	)
 
 	// add dialogs for commands
   intro.addDialogs(bot)
+  welcome.addDialogs(bot)
 	verifyCode.addDialogs(bot)
 	shareCode.addDialogs(bot)
 	optout.addDialogs(bot)

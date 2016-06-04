@@ -14,10 +14,10 @@ function addDialogs(bot) {
  			// if user already has an invite code then look them up
 			if (session.userData.invitecode) {
 				// http://localhost:3978/lookup?userid=10001
-				path = '/lookup?userid=%s'.replace('%s', session.message.from.id)
+				path = '/lookup?userid=%s'.replace('%s', session.message.from.address)
 			} else {
 				// http://localhost:3978/rank?userid=10001&first_name=test&last_name=test
-				path = '/rank?userid=%s'.replace('%s', session.message.from.id + '&first_name=' + session.message.from.name + '&last_name=' + session.message.from.name)
+				path = '/rank?userid=%s'.replace('%s', session.message.from.address + '&first_name=' + session.message.from.name.split(' ')[0] + '&last_name=' + session.message.from.name.split(' ')[1])
 			}
 
 			http.get('http://9f8b4fe9.ngrok.io'+path, function(res) {
