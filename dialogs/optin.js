@@ -5,22 +5,25 @@ module.exports = {
 	addDialogs: addDialogs
 }
 
+
 function addDialogs(bot) {
 	bot.add('/optin', [
 		function (session) {
-			builder.Prompts.choice(session, prompts.codeFailMessage2, ["Yes", "No", "Another code"])
+			builder.Prompts.choice(session, prompts.codeFailMessage2, ["Add me to the list!", "No", "Another code"])
 		},
 		function (session, results) {
-			if (results.response) {
-				if (results.response.entity == 'yes') {
-					session.userData.optin = true
-					session.endDialog(prompts.endMessage2)
-				} else if (results.response.entity == 'no') {
-					session.userData.optin = false
-					session.endDialog(prompts.endMessage2)
-				} else {
-					session.beginDialog('/verifyCode')
-				}
+			console.log('OPT IN OR NAH? %s', results.response.entity)
+			if (results.response.entity == 'Yes') {
+				console.log('ya')
+				session.userData.optin = true
+				session.endDialog(prompts.endMessage2)
+			} else if (results.response.entity == 'No') {
+				console.log('nah')
+				session.userData.optin = false
+				session.endDialog(prompts.endMessage2)
+			} else {
+				console.log('redo')
+				session.beginDialog('/verifyCode')
 			}
 		},
 	])

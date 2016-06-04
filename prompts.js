@@ -17,9 +17,7 @@ module.exports = {
 	sendCodeMessage2: "btw ${username}, out of my ${totalranks} fans you're going to be the ${userrank} person I send the new album to.",
 
 	codeFailMessage1: "Oh no! That's not one of the secret codes.",
-	codeFailMessage2: "Want to try another code or do you want me to add you to the list of people who get my new album early?",
-	// Try another code!
-	// Add me to the list!
+	codeFailMessage2: "Do you want me to add you to the list of people who get my new album early? Or want to try another code?",
 
 	endMessage: "Alright, I'll remember to ping you here when the album comes out! ttyl",
 	endMessage2: "Alright, it was nice chatting. Hit me up when you want to hear more about my album!",
@@ -30,11 +28,11 @@ module.exports = {
 	defaultMessage4: "Almost ready for ya!",
 	defaultMessage5: "This album is gonna be amazing!",
 
-	helpMessage: 'Currently you can...\n' +
-    '* hello - i will say hello and ask if you wish to opt in\n' +
-    '* verify - i will verify a special invite code for you\n' +
-    '* share - i will give you an invite code to share\n' +
-		'* optin - i will gladly notify you when i am ready\n' +
-    '* optout - i will no longer notify you when i am ready\n' +
-    '* bye - ends the conversation\n',
+	helpMessage: 'Currently you can say...\n' +
+    '* hello - I will reply and ask if you wish to opt in\n' +
+    '* verify - I will verify an invite code for you\n' +
+    '* share - I will give you an invite code\n' +
+		'* optin - I will gladly notify you when i am ready\n' +
+    '* optout - I will no longer notify you\n' +
+    '* bye - ends the chat\n',
 }

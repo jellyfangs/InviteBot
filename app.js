@@ -19,7 +19,8 @@ var server = restify.createServer()
 server.use(restify.queryParser())
 
 // setup redis server
-var client = require('redis').createClient(process.env.REDIS_URL)
+// var client = require('redis').createClient(process.env.REDIS_URL)
+var client = require('redis').createClient('//localhost:6379')
 
 // hello world
 server.get('/', function(req, res) {
@@ -297,6 +298,7 @@ server.get('/remove', function (req, res) {
 server.post('/api/messages', launchBot.verifyBotFramework(), launchBot.listen())
 
 // run server
-server.listen(process.env.PORT || 3978, function () {
+// server.listen(process.env.PORT || 3978, function () {
+server.listen(process.env.API_PORT || 3978, function () {
 	console.log('%s listening to %s', server.name, server.url)
 })

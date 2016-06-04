@@ -6,6 +6,7 @@ var verifyCode = require('./verifyCode')
 var shareCode = require('./shareCode')
 var optout = require('./optout')
 var optin = require('./optin')
+var reset = require('./reset')
 
 module.exports = {
 	addDialogs: addDialogs
@@ -13,7 +14,6 @@ module.exports = {
 
 // triggers loading all the bot dialogs
 function addDialogs(bot) {
-    console.log(bot)
 	bot.add('/', new builder.CommandDialog()
     .matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
 		.matches('^(hello|yo|hi|hey)', '/intro')
@@ -21,15 +21,17 @@ function addDialogs(bot) {
 		.matches('^(share)', '/shareCode')
 		.matches('^(optout)', '/optout')
 		.matches('^(optin)', '/optin')
+		.matches('^(reset)', '/reset')
 		.matches('^(bye|quit)', builder.DialogAction.endDialog(prompts.endMessage))
 		.onDefault(builder.DialogAction.send(randomDefault())))
 
 	// add dialogs for commands
-    intro.addDialogs(bot)
+  intro.addDialogs(bot)
 	verifyCode.addDialogs(bot)
 	shareCode.addDialogs(bot)
 	optout.addDialogs(bot)
 	optin.addDialogs(bot)
+	reset.addDialogs(bot)
 }
 
 
