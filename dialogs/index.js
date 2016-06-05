@@ -31,19 +31,19 @@ function addDialogs(bot) {
 		.matches('^(me)', '/me')
 		.matches('^(leaderboard)', '/leaderboard')
 		.matches('^(bye|quit)', builder.DialogAction.endDialog(prompts.endMessage))
-		.onDefault(
-			builder.DialogAction.send(randomDefault())
-		// 	function (session, args, next) {
-		// 		if (!session.userData.firstRun) {
-		// 			session.beginDialog('/intro')
-		// 		} else {
-		// 			next()
-		// 		}
-		// 	},
-		// 	function (session, results) {
-		// 		session.beginDialog('/welcome')
-		// 	}
-		)
+		.onDefault([
+			// builder.DialogAction.send(randomDefault())
+			function (session, args, next) {
+				if (!session.userData.firstRun) {
+					session.beginDialog('/intro')
+				} else {
+					next()
+				}
+			},
+			function (session, results) {
+				session.beginDialog('/welcome')
+			}
+		])
 	)
 
 	// add dialogs for commands

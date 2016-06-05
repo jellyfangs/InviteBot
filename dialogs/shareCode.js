@@ -1,6 +1,6 @@
 var builder = require('botbuilder')
 var prompts = require('../prompts')
-var http = require('http')
+var https = require('https')
 
 module.exports = {
 	addDialogs: addDialogs
@@ -23,7 +23,7 @@ function addDialogs(bot) {
 
 
 			//https://9f8b4fe9.ngrok.io/lookup?userid=1106115569438811
-			http.get('http://9f8b4fe9.ngrok.io'+path, function(session, res) {
+			https.get('https://9f8b4fe9.ngrok.io'+path, function(res) {
 				if (res.statusCode!=200) {
 					// server error
 					session.endDialog(prompts.endMessage)

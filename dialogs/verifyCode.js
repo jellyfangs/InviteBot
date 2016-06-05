@@ -1,6 +1,6 @@
 var builder = require('botbuilder')
 var prompts = require('../prompts')
-var http = require('http')
+var https = require('https')
 
 module.exports = {
 	addDialogs: addDialogs
@@ -35,7 +35,7 @@ function addDialogs(bot) {
                 session.replaceDialog('/optin')
             } else {
                 console.log('okay, go verify the code')
-                http.get('http://9f8b4fe9.ngrok.io/verify?invitecode='+results.response, function(res) { 
+                https.get('https://9f8b4fe9.ngrok.io/verify?invitecode='+results.response, function(res) { 
                     if (res.statusCode==200) {
                         res.on('data', function(data) {
                             var friend = JSON.parse(data)

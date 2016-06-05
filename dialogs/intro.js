@@ -24,7 +24,7 @@ function addDialogs(bot) {
             // send an image message
             var snap = new builder.Message()
                 .addAttachment({
-                    contentUrl: "http://media1.popsugar-assets.com/files/2012/05/20/2/192/1922398/75f51984d7df610b_8693004e9eca11e18bb812313804a181_7.xxxlarge/i/Jason-Derulo-stayed-busy-studio.jpeg",
+                    contentUrl: "https://hamadamania.files.wordpress.com/2015/02/jason-derulo-taylor-parks.jpg",
                     contentType: "image/jpeg"
                 })
             session.send(snap)
