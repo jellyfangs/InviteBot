@@ -9,7 +9,8 @@ module.exports = {
 function addDialogs(bot) {
 	bot.add('/shareCode', [
 		function (session) {
-			console.log(session.userData)
+			console.log('SHARE AN INVITE CODE')
+
 			var path = ''
  			// if user already has an invite code then look them up
 			if (session.userData.invitecode) {
@@ -20,13 +21,18 @@ function addDialogs(bot) {
 				path = '/rank?userid=%s'.replace('%s', session.message.from.address + '&first_name=' + session.message.from.name.split(' ')[0] + '&last_name=' + session.message.from.name.split(' ')[1])
 			}
 
-			http.get('http://9f8b4fe9.ngrok.io'+path, function(res) {
+
+			//https://9f8b4fe9.ngrok.io/lookup?userid=1106115569438811
+			http.get('http://9f8b4fe9.ngrok.io'+path, function(session, res) {
 				if (res.statusCode!=200) {
 					// server error
 					session.endDialog(prompts.endMessage)
 				}
+
 				// keep processing user
 				res.on('data', function(data) {
+					console.log(JSON.parse(data))
+
 					var user = JSON.parse(data)
 					var invitecode = user.invitecode
 					session.userData.invitecode = invitecode // setup botbuilder session

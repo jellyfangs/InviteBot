@@ -6,24 +6,26 @@ module.exports = {
 	addDialogs: addDialogs
 }
 
-var haveCodeActions = {
-		"type": "Message",
-        "attachments": [
-            {
-               "text": prompts.haveCodeMessage,
-                "actions": [
-                    {
-                        "title": "Nevermind",
-                        "message": "no"
-                    },
-                ]
-            }
-        ]
-    }
    
 function addDialogs(bot) {
 	bot.add('/verifyCode', [
 		function (session) {
+            console.log('VERIFY AN INVITE CODE')
+
+            var haveCodeActions = {
+                "type": "Message",
+                "attachments": [
+                    {
+                       "text": prompts.haveCodeMessage,
+                        "actions": [
+                            {
+                                "title": "Nevermind",
+                                "message": "no"
+                            },
+                        ]
+                    }
+                ]
+            }
 			builder.Prompts.text(session, haveCodeActions)
 		},
 		function (session, results) {

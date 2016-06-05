@@ -56,7 +56,7 @@ function addDialogs(bot) {
             // reply back with intro
 			builder.Prompts.text(session, welcomeActions)
 		},
-		function (session, results, next) {
+		function (session, results) {
             console.log('STEP 2 - WELCOME')
 
             // what did user decide

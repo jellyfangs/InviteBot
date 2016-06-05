@@ -1,13 +1,18 @@
 var builder = require('botbuilder')
 var prompts = require('../prompts')
 
+// USER FACING
 var intro = require('./intro')
 var welcome = require('./welcome')
 var verifyCode = require('./verifyCode')
 var shareCode = require('./shareCode')
 var optout = require('./optout')
 var optin = require('./optin')
+
+// ADMIN FACING
 var reset = require('./reset')
+var leaderboard = require('./leaderboard')
+var me = require('./me')
 
 module.exports = {
 	addDialogs: addDialogs
@@ -23,20 +28,22 @@ function addDialogs(bot) {
 		.matches('^(optout)', '/optout')
 		.matches('^(optin)', '/optin')
 		.matches('^(reset)', '/reset')
+		.matches('^(me)', '/me')
+		.matches('^(leaderboard)', '/leaderboard')
 		.matches('^(bye|quit)', builder.DialogAction.endDialog(prompts.endMessage))
-		.onDefault([
-			// builder.DialogAction.send(randomDefault())
-			function (session, args, next) {
-				if (!session.userData.firstRun) {
-					session.beginDialog('/intro')
-				} else {
-					next()
-				}
-			},
-			function (session, results) {
-				session.beginDialog('welcome')
-			}
-		])
+		.onDefault(
+			builder.DialogAction.send(randomDefault())
+		// 	function (session, args, next) {
+		// 		if (!session.userData.firstRun) {
+		// 			session.beginDialog('/intro')
+		// 		} else {
+		// 			next()
+		// 		}
+		// 	},
+		// 	function (session, results) {
+		// 		session.beginDialog('/welcome')
+		// 	}
+		)
 	)
 
 	// add dialogs for commands
@@ -47,6 +54,8 @@ function addDialogs(bot) {
 	optout.addDialogs(bot)
 	optin.addDialogs(bot)
 	reset.addDialogs(bot)
+	me.addDialogs(bot)
+	leaderboard.addDialogs(bot)
 }
 
 
