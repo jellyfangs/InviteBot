@@ -30,6 +30,7 @@ server.get('/', function(req, res) {
 		<html>
 			<body>
 				<ul>
+					<li><a href="/rankings">Go to leaderboard</a></li>
 					<li>
 						<form action="/rank" method="get">
 							<input type="text" placeholder="userid" name="userid" />
@@ -56,7 +57,6 @@ server.get('/', function(req, res) {
 							<button type="submit">remove user</button>
 						</form>
 					</li>
-					<li><a href="/rankings">Go to leaderboard</a></li>
 					<li><a href="/x">Clear database</a></li>
 				</ul>
 			</body>

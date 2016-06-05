@@ -42,7 +42,7 @@ function addDialogs(bot) {
                             var verifiedCodeMessage = `Dope! That is definitely one of my secret codes, you just helped ${friend.first_name} move up the waitlist for my new album!`
                             session.send(verifiedCodeMessage)
 
-                            var user_first_name = session.userData.name || 'TEST_NAME'
+                            var user_first_name = session.message.from.name.split(' ')[0] || session.userData.name
                             var verifiedCodeMessage2 = `btw ${user_first_name}, I still got you.`
                             session.send(verifiedCodeMessage2)
 

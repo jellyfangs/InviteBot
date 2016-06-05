@@ -29,10 +29,17 @@ module.exports = {
 	defaultMessage5: "This album is gonna be amazing!",
 
 	helpMessage: 'Currently you can say...\n' +
-    '* hello - I will reply and ask if you wish to opt in\n' +
+    '* hello - I will reply and greet you\n' +
     '* verify - I will verify an invite code for you\n' +
-    '* share - I will give you an invite code\n' +
-		'* optin - I will gladly notify you when i am ready\n' +
+    '* share - I will give you a code to share\n' +
+		'* optin - I will gladly notify you when I am ready\n' +
     '* optout - I will no longer notify you\n' +
-    '* bye - ends the chat\n',
+    '* bye - ends the chat\n' +
+    'Psst... also try saying secret\n',
+
+	helpMessage2: 'Some secret things you can say...\n' +
+    '* video - I will share a video\n' +
+    '* leaderboard - I will tell you the top 5 users\n' +
+    '* me - I will tell you what I know about you\n' +
+    '* reset - I will reset what I know about you\n',
 }

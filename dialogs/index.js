@@ -8,6 +8,7 @@ var verifyCode = require('./verifyCode')
 var shareCode = require('./shareCode')
 var optout = require('./optout')
 var optin = require('./optin')
+var video = require('./video')
 
 // ADMIN FACING
 var reset = require('./reset')
@@ -22,6 +23,7 @@ module.exports = {
 function addDialogs(bot) {
 	bot.add('/', new builder.CommandDialog()
     .matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
+    .matches('^(secret)', builder.DialogAction.send(prompts.helpMessage2))
 		.matches('^(hello|yo|hi|hey)', '/welcome')
 		.matches('^(verify)', '/verifyCode')
 		.matches('^(share)', '/shareCode')
@@ -29,19 +31,20 @@ function addDialogs(bot) {
 		.matches('^(optin)', '/optin')
 		.matches('^(reset)', '/reset')
 		.matches('^(me)', '/me')
+		.matches('^(video)', '/video')
 		.matches('^(leaderboard)', '/leaderboard')
 		.matches('^(bye|quit)', builder.DialogAction.endDialog(prompts.endMessage))
 		.onDefault([
 			// builder.DialogAction.send(randomDefault())
 			function (session, args, next) {
 				if (!session.userData.firstRun) {
-					session.beginDialog('/intro')
+					session.replaceDialog('/intro')
 				} else {
 					next()
 				}
 			},
 			function (session, results) {
-				session.beginDialog('/welcome')
+				session.replaceDialog('/intro')
 			}
 		])
 	)
@@ -55,6 +58,7 @@ function addDialogs(bot) {
 	optin.addDialogs(bot)
 	reset.addDialogs(bot)
 	me.addDialogs(bot)
+	video.addDialogs(bot)
 	leaderboard.addDialogs(bot)
 }
 
