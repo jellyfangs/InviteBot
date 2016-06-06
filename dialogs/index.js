@@ -22,17 +22,21 @@ module.exports = {
 // triggers loading all the bot dialogs
 function addDialogs(bot) {
 	bot.add('/', new builder.CommandDialog()
+		// app stuff
     .matches('^(help)', builder.DialogAction.send(prompts.helpMessage))
     .matches('^(secret)', builder.DialogAction.send(prompts.helpMessage2))
-		.matches('^(hello|yo|hi|hey)', '/welcome')
+		.matches('^(leaderboard)', '/leaderboard')
+		.matches('^(reset)', '/reset')
+		.matches('^(me)', '/me')
+
+    // chat stuff
+		// .matches('^(hello|yo|hi|hey)', '/welcome')
 		.matches('^(verify)', '/verifyCode')
 		.matches('^(share)', '/shareCode')
 		.matches('^(optout)', '/optout')
 		.matches('^(optin)', '/optin')
-		.matches('^(reset)', '/reset')
-		.matches('^(me)', '/me')
 		.matches('^(video)', '/video')
-		.matches('^(leaderboard)', '/leaderboard')
+		.matches('^(intro)', '/intro')
 		.matches('^(bye|quit)', builder.DialogAction.endDialog(prompts.endMessage))
 		.onDefault([
 			// builder.DialogAction.send(randomDefault())
@@ -44,7 +48,7 @@ function addDialogs(bot) {
 				}
 			},
 			function (session, results) {
-				session.replaceDialog('/intro')
+				session.replaceDialog('/welcome')
 			}
 		])
 	)

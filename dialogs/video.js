@@ -8,6 +8,8 @@ module.exports = {
 function addDialogs(bot) {
   bot.add('/video', [
     function (session) {
+      session.send('Check out how I am making the songs in the studio!')
+
       var bubble = {}
       bubble.title = 'Making of the song'
       bubble.titleLink = 'https://www.youtube.com/watch?v=Cp0UyQWBRNI'

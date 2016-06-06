@@ -19,8 +19,8 @@ function addDialogs(bot) {
                        "text": prompts.haveCodeMessage,
                         "actions": [
                             {
-                                "title": "Nevermind",
-                                "message": "no"
+                                "title": "I don't have a code",
+                                "message": "nocode"
                             },
                         ]
                     }
@@ -30,9 +30,8 @@ function addDialogs(bot) {
 		},
 		function (session, results) {
             console.log('VERIFYING CODE: %s', results.response)
-            if (results.response == 'no') {
-                console.log('nevermind! now go optin')
-                session.replaceDialog('/optin')
+            if (results.response == 'nocode') {
+                session.replaceDialog('/optout')
             } else {
                 console.log('okay, go verify the code')
                 https.get('https://9f8b4fe9.ngrok.io/verify?invitecode='+results.response, function(res) { 

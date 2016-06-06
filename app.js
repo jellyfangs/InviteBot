@@ -30,7 +30,7 @@ server.get('/', function(req, res) {
 		<html>
 			<body>
 				<ul>
-					<li><a href="/rankings">Go to leaderboard</a></li>
+					<li><a href="/rankings">Go to leaderboard</a><br><br></li>
 					<li>
 						<form action="/rank" method="get">
 							<input type="text" placeholder="userid" name="userid" />

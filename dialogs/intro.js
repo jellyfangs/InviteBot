@@ -10,16 +10,8 @@ module.exports = {
 function addDialogs(bot) {
 	bot.add('/intro', [
 		function (session) {
-            console.log('STEP 1 - INTRO')
-
             // set the first run so the bot alternates to intro instead
             session.userData.firstRun = true
-
-            // who's talking?
-            console.log('User name: ', session.message.from.name)
-            console.log('User FB id: ', session.message.from.address)
-            console.log('User Bot id: ', session.message.from.id)
-            console.log('User data: ', session.userData)
 
             // send an image message
             var snap = new builder.Message()
@@ -54,17 +46,14 @@ function addDialogs(bot) {
                 }
 
             // reply back with intro
-			builder.Prompts.text(session, welcomeActions)
+			builder.Prompts.text(session, introActions)
 		},
 		function (session, results) {
-            console.log('STEP 2 - WELCOME')
-
             // what did user decide
             console.log(results)
 
             if (results.response=='yes') {
-                // user now opted in
-                session.userData.optin = true
+                session.send('Yeahh! Dope.')
                 session.replaceDialog('/shareCode')
             } else if (results.response=='verify') {
                 session.replaceDialog('/verifyCode')
