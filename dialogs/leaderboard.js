@@ -1,6 +1,7 @@
 var builder = require('botbuilder')
 var prompts = require('../prompts')
 var https = require('https')
+var config = require('../config')
 
 module.exports = {
 	addDialogs: addDialogs
@@ -8,7 +9,7 @@ module.exports = {
 
 function addDialogs(bot) {
   bot.add('/leaderboard', function (session) {
-  	https.get('https://9f8b4fe9.ngrok.io/rankings', function(res) {
+  	https.get(config.API_URL+'/rankings', function(res) {
     	if (res.statusCode!=200) {
     		session.endDialog(prompts.endMessage)
     	}

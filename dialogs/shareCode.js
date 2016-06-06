@@ -1,6 +1,7 @@
 var builder = require('botbuilder')
 var prompts = require('../prompts')
 var https = require('https')
+var config = require('../config')
 
 module.exports = {
 	addDialogs: addDialogs
@@ -14,16 +15,12 @@ function addDialogs(bot) {
 			var path = ''
  			// if user already has an invite code then look them up
 			if (session.userData.invitecode) {
-				// http://localhost:3978/lookup?userid=10001
 				path = '/lookup?userid=%s'.replace('%s', session.message.from.address)
 			} else {
-				// http://localhost:3978/rank?userid=10001&first_name=test&last_name=test
 				path = '/rank?userid=%s'.replace('%s', session.message.from.address + '&first_name=' + session.message.from.name.split(' ')[0] + '&last_name=' + session.message.from.name.split(' ')[1])
 			}
 
-
-			//https://9f8b4fe9.ngrok.io/lookup?userid=1106115569438811
-			https.get('https://9f8b4fe9.ngrok.io'+path, function(res) {
+			https.get(config.API_URL+path, function(res) {
 				if (res.statusCode!=200) {
 					// server error
 					session.endDialog(prompts.endMessage)

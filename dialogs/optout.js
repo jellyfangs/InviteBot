@@ -1,5 +1,6 @@
 var builder = require('botbuilder')
 var prompts = require('../prompts')
+var config = require('../config')
 
 module.exports = {
 	addDialogs: addDialogs
@@ -12,8 +13,7 @@ function addDialogs(bot) {
 		},
 		function (session, results) {
 			if (results.response) {
-				//https://9f8b4fe9.ngrok.io/lookup?userid=1106115569438811
-				https.get('https://9f8b4fe9.ngrok.io/optin?userid='+session.message.from.address, function(res) {
+				https.get(config.API_URL+'/optin?userid='+session.message.from.address, function(res) {
 					if (res.statusCode!=200) {
 						// server error
 						session.endDialog(prompts.endMessage)
@@ -30,8 +30,7 @@ function addDialogs(bot) {
 	        console.log(`CHATBOT ERR: ${err.message}`)
 	      })
 			} else {
-				//https://9f8b4fe9.ngrok.io/lookup?userid=1106115569438811
-				https.get('https://9f8b4fe9.ngrok.io/optin?userid='+session.message.from.address, function(res) {
+				https.get(config.API_URL+'/optin?userid='+session.message.from.address, function(res) {
 					if (res.statusCode!=200) {
 						// server error
 						session.endDialog(prompts.endMessage)
