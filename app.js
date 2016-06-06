@@ -14,7 +14,6 @@ server.use(restify.queryParser())
 
 // setup redis server
 var client = require('redis').createClient(process.env.REDIS_URL)
-console.log('REDIS ', client)
 // var client = require('redis').createClient('//localhost:6379')
 
 // create bot and add dialogs
