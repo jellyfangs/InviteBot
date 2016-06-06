@@ -4,10 +4,6 @@ var index = require('./dialogs/index')
 var prompts = require('./prompts')
 var randomstring = require('randomstring')
 
-// ranking system
-var Leaderboard = require('leaderboard')
-var rankings = new Leaderboard('rankings', null, client)
-
 // setup restify server
 var server = restify.createServer()
 server.use(restify.queryParser())
@@ -15,6 +11,10 @@ server.use(restify.queryParser())
 // setup redis server
 var client = require('redis').createClient('redis://h:p2to1et9mknj1k3hmm7qaott8km@ec2-54-83-204-83.compute-1.amazonaws.com:12729')
 // var client = require('redis').createClient('//localhost:6379')
+
+// ranking system
+var Leaderboard = require('leaderboard')
+var rankings = new Leaderboard('rankings', null, client)
 
 // create bot and add dialogs
 var launchBot = new builder.BotConnectorBot({
