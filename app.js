@@ -343,6 +343,6 @@ server.get('/remove', function (req, res) {
 server.post('/api/messages', launchBot.verifyBotFramework(), launchBot.listen())
 
 // run server
-server.listen(process.env.API_PORT || 3978, function () {
+server.listen(process.env.PORT || 3978, function () {
 	console.log('%s listening to %s', server.name, server.url)
 })
