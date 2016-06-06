@@ -12,11 +12,41 @@ function addDialogs(bot) {
 		},
 		function (session, results) {
 			if (results.response) {
-				session.userData.optin = true
-				session.send('Yeahh, dope!')
+				//https://9f8b4fe9.ngrok.io/lookup?userid=1106115569438811
+				https.get('https://9f8b4fe9.ngrok.io/optin?userid='+session.message.from.address, function(res) {
+					if (res.statusCode!=200) {
+						// server error
+						session.endDialog(prompts.endMessage)
+					}
+
+					// keep processing user
+					res.on('data', function(data) {
+						console.log(JSON.parse(data))
+
+						session.userData.optin = true
+						session.send('Yeahh, dope!')
+					})
+				}).on('error', function (err) {
+	        console.log(`CHATBOT ERR: ${err.message}`)
+	      })
 			} else {
-				session.userData.optin = false
-				session.send('Oh man that sucks.')
+				//https://9f8b4fe9.ngrok.io/lookup?userid=1106115569438811
+				https.get('https://9f8b4fe9.ngrok.io/optin?userid='+session.message.from.address, function(res) {
+					if (res.statusCode!=200) {
+						// server error
+						session.endDialog(prompts.endMessage)
+					}
+
+					// keep processing user
+					res.on('data', function(data) {
+						console.log(JSON.parse(data))
+
+						session.userData.optin = false
+						session.send('Oh man that sucks.')
+					})
+				}).on('error', function (err) {
+	        console.log(`CHATBOT ERR: ${err.message}`)
+	      })
 			}
 			session.endDialog(prompts.endMessage2)
 		}
