@@ -13,6 +13,7 @@
     "botbuilder": "^1.0.0",
     "crypto": "0.0.3",
     "http": "0.0.0",
+    "https": "^1.0.0",
     "leaderboard": "0.0.9",
     "q": "^1.4.1",
     "randomstring": "^1.1.5",
