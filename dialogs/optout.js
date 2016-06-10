@@ -1,6 +1,7 @@
 var builder = require('botbuilder')
 var prompts = require('../prompts')
 var config = require('../config')
+var https = require('https')
 
 module.exports = {
 	addDialogs: addDialogs
