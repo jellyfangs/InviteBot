@@ -26,6 +26,7 @@ function addDialogs(bot) {
 
 						session.userData.optin = true
 						session.send('Yeahh, dope!')
+						session.endDialog(prompts.endMessage2)
 					})
 				}).on('error', function (err) {
 	        console.log(`CHATBOT ERR: ${err.message}`)
@@ -43,12 +44,12 @@ function addDialogs(bot) {
 
 						session.userData.optin = false
 						session.send('Oh man that sucks.')
+						session.endDialog(prompts.endMessage2)
 					})
 				}).on('error', function (err) {
 	        console.log(`CHATBOT ERR: ${err.message}`)
 	      })
 			}
-			session.endDialog(prompts.endMessage2)
 		}
 	])
 }
